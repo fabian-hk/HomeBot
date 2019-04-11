@@ -144,7 +144,7 @@ class FuelPrice(Process):
         for user in users.users:
             self.driver.get(
                 "https://www.clever-tanken.de/tankstelle_liste?lat=" + str(user.latitude) + "&lon=" + str(
-                    user.longitude) + "&spritsorte=" + config.fuel_kind + "&r=5.0&sort=km")
+                    user.longitude) + "&spritsorte=" + str(config.fuel_kind) + "&r=5.0&sort=km")
 
             items = self.driver.find_elements_by_css_selector("*[id^='tankstelle-']")
 

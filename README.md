@@ -20,6 +20,7 @@ debug_level = logging.LEVEL
 ip_powerwall = "192.168.2.50"
 default_latitude = 30.0
 default_longitude = 10.0
+fuel_kind = 0 # kind of fuel as integer
 
 wol_pc = "FF:AA:00:11:22:33"
 on_pc = "192.168.2.55"

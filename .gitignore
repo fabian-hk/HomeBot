@@ -1,0 +1,14 @@
+.idea/
+__pycache__/
+Powerwall/__pycache__/
+FuelPrice/__pycache__/
+WakeOnLan/__pycache__/
+FuelPrice/chromedriver/
+config.py
+*.png
+*.svg
+*.xlsx
+geckodriver.log
+secret
+*.db
+*.csv

@@ -173,7 +173,7 @@ class Powerwall(Process):
                     last_time_saved = time.time()
 
                     # calc month values once a day
-                    if time.strftime("%H_%M", time.localtime()) == '23_55' and not calc_month_values:
+                    if time.strftime("%H_%M", time.localtime()) in ['09_55', '09_56', '09_57'] and not calc_month_values:
                         calc_month_values = True
                         cmv.calculate_month_values()
                         self.logger.debug("Calculated month values")

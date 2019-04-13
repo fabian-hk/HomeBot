@@ -143,21 +143,23 @@ class Powerwall(Process):
         self.logger.debug("data size:" + str(len(self.data)))
 
     def get_power_data(self):
-        date = time.strftime("%Y_%m_%d", time.localtime())
-        self.load_csv()
+        t = time.strftime("%H:%M:%S", time.localtime())
+        if t != "00:00:00":
+            date = time.strftime("%Y_%m_%d", time.localtime())
+            self.load_csv()
 
-        raw_data = requests.get("https://" + config.ip_powerwall + "/api/meters/aggregates", verify=False)
-        data1 = json.loads(raw_data.text)
+            raw_data = requests.get("https://" + config.ip_powerwall + "/api/meters/aggregates", verify=False)
+            data1 = json.loads(raw_data.text)
 
-        raw_data = requests.get("https://" + config.ip_powerwall + "/api/system_status/soe", verify=False)
-        data2 = json.loads(raw_data.text)
+            raw_data = requests.get("https://" + config.ip_powerwall + "/api/system_status/soe", verify=False)
+            data2 = json.loads(raw_data.text)
 
-        input_data = [[time.strftime("%H:%M:%S", time.localtime()), float(data1['solar']['instant_power']),
-                       float(data1['load']['instant_power']),
-                       float(data1['battery']['instant_power']), float(data1['site']['instant_power']),
-                       float(data2['percentage'])]]
-        new_df = pandas.DataFrame(input_data, columns=self.cols)
-        self.data[date] = self.data[date].append(new_df, ignore_index=True, sort=False)
+            input_data = [[t, float(data1['solar']['instant_power']),
+                           float(data1['load']['instant_power']),
+                           float(data1['battery']['instant_power']), float(data1['site']['instant_power']),
+                           float(data2['percentage'])]]
+            new_df = pandas.DataFrame(input_data, columns=self.cols)
+            self.data[date] = self.data[date].append(new_df, ignore_index=True, sort=False)
 
     def run(self):
         last_time_saved = time.time()
@@ -173,7 +175,8 @@ class Powerwall(Process):
                     last_time_saved = time.time()
 
                     # calc month values once a day
-                    if time.strftime("%H_%M", time.localtime()) in ['23_55', '23_56', '23_57'] and not calc_month_values:
+                    if time.strftime("%H_%M", time.localtime()) in ['23_55', '23_56',
+                                                                    '23_57'] and not calc_month_values:
                         calc_month_values = True
                         cmv.calculate_month_values()
                         self.logger.debug("Calculated month values")

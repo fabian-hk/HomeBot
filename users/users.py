@@ -6,7 +6,7 @@ from users import users_pb2
 folder = config.data_folder + 'users/'
 
 
-def add_user(chat_id, username=None, is_admin=False, longitude=config.default_longitude,
+def add_user(chat_id, username=None, privs=3, longitude=config.default_longitude,
              latitude=config.default_latitude):
     user_data = users_pb2.UserManagement()
 
@@ -20,8 +20,8 @@ def add_user(chat_id, username=None, is_admin=False, longitude=config.default_lo
     new_user.chat_id = chat_id
     if username:
         new_user.username = username
-    if is_admin:
-        new_user.is_admin = is_admin
+    if privs != 3:
+        new_user.privs = privs
 
     new_user.longitude = longitude
     new_user.latitude = latitude
@@ -113,6 +113,31 @@ def user_lists():
     for user in user_data.users:
         if user.chat_id != -1:
             user_lst.append(user.chat_id)
-            if user.is_admin:
+            if user.privs == 0:
                 admin_lst.append(user.chat_id)
     return user_lst, admin_lst
+
+
+def user_by_id(chat_id):
+    f = open(folder + 'database.db', 'rb')
+    user_data = users_pb2.UserManagement()
+    user_data.ParseFromString(f.read())
+    f.close()
+
+    for user in user_data.users:
+        if user.chat_id == chat_id:
+            return user
+
+
+def change_user(chat_id, privs):
+    f = open(folder + 'database.db', 'rb')
+    user_data = users_pb2.UserManagement()
+    user_data.ParseFromString(f.read())
+    f.close()
+
+    for user in user_data.users:
+        user.privs = privs
+
+    f = open(folder + 'database.db', "wb")
+    f.write(user_data.SerializeToString())
+    f.close()

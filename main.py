@@ -31,9 +31,10 @@ def handle(msg):
     content_type, chat_type, chat_id = telepot.glance(msg)
     logger.debug("Chat id: " + str(chat_id) + " type: " + str(content_type))
     if chat_id in chat_ids:
+        user = users.user_by_id(chat_id)
         if content_type == "text":
             cmd = str(msg['text']).lower().split(" ")
-            if cmd[0] == "fuel":
+            if cmd[0] == "fuel" and user.privs <= 3:
                 if len(cmd) == 1:
                     try:
                         bot.sendMessage(chat_id, FuelPrice.encode_prices(FuelPrice.get_results(chat_id)))
@@ -69,9 +70,23 @@ def handle(msg):
                     bot.sendMessage(chat_id, r)
                 except Exception as e:
                     logger.error(e)
-            elif cmd[0] == "power":
+            elif cmd[0] == "power" and user.privs <= 1:
                 try:
                     bot.sendPhoto(chat_id, Powerwall.get_current_value())
+                except Exception as e:
+                    logger.error(e)
+            elif cmd[0] == "help" and user.privs <= 3:
+                try:
+                    help = """"fuel: shows fuel prices for your location
+                                fuel stat: shows graphs from the fuel prices from the main location
+                                fuel limit 1.5: changes your price limit to 1.50€ for price alerts on your location"""
+                    if user.privs <= 1:
+                        help += """"power: shows graphs from energy consumption"""
+                    if user.privs == 0:
+                        help += """wol: starts desktop at home
+                                    on: tests whether your desktop is running or not
+                                    temp: measures cpu temperature from pi"""
+                    bot.sendMessage(chat_id, help)
                 except Exception as e:
                     logger.error(e)
         if content_type == "location":

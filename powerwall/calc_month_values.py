@@ -7,18 +7,14 @@ import config
 folder = config.data_folder + "powerwall/"
 
 
-def get_month_value(date: str, index=[0], path=folder + "current_values.csv"):
+def get_month_value(date: str, cv: pandas.DataFrame, index=[0]):
     """
     Calculate the sum of the current values for a given month.
-    :param index:
-    :param date:
-    :param path: The path to the file with the current values
     """
-    d = pandas.read_csv(path, delimiter=";", decimal=",")
     show_cols = ["home", "from_grid", "to_grid", "solar", "from_powerwall", "to_powerwall"]
     data = [date]
     for col in show_cols:
-        data.append(d.loc[(d["time"].str.contains(date))][col].sum())
+        data.append(cv.loc[(cv["time"].str.contains(date))][col].sum())
     return pandas.DataFrame([data], columns=['time'] + show_cols, index=index)
 
 
@@ -43,9 +39,9 @@ def calculate_month_values():
         for date in time_list:
             if date in calc_time_list and date == current_date:
                 index = mv.index[mv['time'] == date].tolist()
-                mv.update(get_month_value(date, index))
+                mv.update(get_month_value(date, cv, index))
             elif date not in calc_time_list:
-                mv = mv.append(get_month_value(date), ignore_index=True, sort=False)
+                mv = mv.append(get_month_value(date, cv), ignore_index=True, sort=False)
 
         mv.reindex(show_cols, axis=1)
 

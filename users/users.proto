@@ -5,7 +5,7 @@ package users;
 message User {
     required int64 chat_id = 1;
     optional string username = 2;
-    optional bool is_admin = 3 [default = false];
+    optional int32 privs = 3 [default = 3];
     optional double longitude = 4;
     optional double latitude = 5;
     optional double price_limit = 6 [default = 1.5];

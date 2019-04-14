@@ -94,7 +94,7 @@ class FuelPrice(Process):
             df = pandas.read_csv(self.folder + name, sep="\t", decimal=",", index_col=0)
 
         new_df = pandas.DataFrame(input, columns=cols)
-        df = df.append(new_df, ignore_index=True)
+        df = df.append(new_df, ignore_index=True, sort=False)
 
         df.to_csv(self.folder + name, sep="\t", decimal=",")
 

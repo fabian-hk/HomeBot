@@ -136,7 +136,8 @@ def change_user(chat_id, privs):
     f.close()
 
     for user in user_data.users:
-        user.privs = privs
+        if user.chat_id == chat_id:
+            user.privs = privs
 
     f = open(folder + 'database.db', "wb")
     f.write(user_data.SerializeToString())

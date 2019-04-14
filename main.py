@@ -77,15 +77,14 @@ def handle(msg):
                     logger.error(e)
             elif cmd[0] == "help" and user.privs <= 3:
                 try:
-                    help = """"fuel: shows fuel prices for your location
-                                fuel stat: shows graphs from the fuel prices from the main location
-                                fuel limit 1.5: changes your price limit to 1.50€ for price alerts on your location"""
+                    help = "fuel: shows fuel prices for your location\nfuel stat: shows graphs from the fuel prices " \
+                           "from the main location\nfuel limit 1.5: changes your price limit to 1.50€ for price alerts " \
+                           "on your location"
                     if user.privs <= 1:
-                        help += """"power: shows graphs from energy consumption"""
+                        help += "\npower: shows graphs from energy consumption"
                     if user.privs == 0:
-                        help += """wol: starts desktop at home
-                                    on: tests whether your desktop is running or not
-                                    temp: measures cpu temperature from pi"""
+                        help += "wol: starts desktop at home\non: tests whether your desktop is running or not\n" \
+                                "temp: measures cpu temperature from pi"
                     bot.sendMessage(chat_id, help)
                 except Exception as e:
                     logger.error(e)

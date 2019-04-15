@@ -83,8 +83,8 @@ def handle(msg):
                     if user.privs <= 1:
                         help += "\npower: shows graphs from energy consumption"
                     if user.privs == 0:
-                        help += "wol: starts desktop at home\non: tests whether your desktop is running or not\n" \
-                                "temp: measures cpu temperature from pi"
+                        help += "\nwol: starts desktop at home\non: tests whether your desktop is running or not" \
+                                "\ntemp: measures cpu temperature from pi"
                     bot.sendMessage(chat_id, help)
                 except Exception as e:
                     logger.error(e)

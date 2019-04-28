@@ -1,9 +1,9 @@
 .idea/
 __pycache__/
-Powerwall/__pycache__/
-FuelPrice/__pycache__/
-WakeOnLan/__pycache__/
-FuelPrice/chromedriver/
+powerwall/__pycache__/
+fuelPrice/__pycache__/
+wol/__pycache__/
+fuelprice/lib/
 config.py
 *.png
 *.svg

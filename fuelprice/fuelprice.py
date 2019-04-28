@@ -1,8 +1,6 @@
 import os
 from multiprocessing import Process, Queue
 import numpy as np
-from selenium import webdriver
-from selenium.webdriver.firefox.options import Options
 import pandas
 import matplotlib.pyplot as plt
 import time
@@ -11,6 +9,7 @@ import logging
 
 import config
 from users import users as user_management
+from fuelprice.lib import libwebscraper
 
 
 class FuelPrice(Process):
@@ -37,25 +36,6 @@ class FuelPrice(Process):
         self.folder = config.data_folder + "fuelprice/"
         if not os.path.isdir(self.folder):
             os.makedirs(self.folder)
-
-        if not config.firefox_webdriver:
-            options = webdriver.ChromeOptions()
-            options.add_argument("headless")
-            options.add_argument("window-size=1200x600")
-            self.driver = webdriver.Chrome(chrome_options=options,
-                                           executable_path="fuelprice/chromedriver/chromedriver.exe")
-
-        if config.virtual_display:
-            from pyvirtualdisplay import Display
-
-            display = Display(visible=0, size=(320, 240))
-            display.start()
-
-        if config.firefox_webdriver:
-            options = Options()
-            # options.add_argument("headless")
-            self.driver = webdriver.Firefox(firefox_options=options,
-                                            executable_path=config.data_folder + 'webdriver/geckodriver')
 
     @staticmethod
     def encode_prices(list):
@@ -84,7 +64,7 @@ class FuelPrice(Process):
 
         cols = ['time']
         input = [[time.strftime("%H:%M:%S", time.localtime())]]
-        for i in results:
+        for i in results[:5]:
             cols.append(i.name + ', ' + i.street + ', ' + i.city)
             input[0].append(i.price)
 
@@ -140,24 +120,11 @@ class FuelPrice(Process):
         plt.close()
 
     def scrap_web_data(self):
-        users = user_management.load_users()
+        ser_users = libwebscraper.scraper(config.data_folder + "users/database.db")
+
+        users = user_management.load_users(ser_users)
+
         for user in users.users:
-            self.driver.get(
-                "https://www.clever-tanken.de/tankstelle_liste?lat=" + str(user.latitude) + "&lon=" + str(
-                    user.longitude) + "&spritsorte=" + str(config.fuel_kind) + "&r=5.0&sort=km")
-
-            items = self.driver.find_elements_by_css_selector("*[id^='tankstelle-']")
-
-            user.ClearField("fuel_prices")
-            for item in items[:self.send_results]:
-                fp = user.fuel_prices.add()
-                fp.name = item.find_element_by_class_name("fuel-station-location-name").text
-                fp.street = item.find_element_by_id("fuel-station-location-street").text
-                fp.city = item.find_element_by_id("fuel-station-location-city").text
-                try:
-                    fp.price = float(item.find_element_by_class_name("price").text)
-                except Exception:
-                    fp.price = -1
 
             # send alert to the user if the price is low
             if user.chat_id != -1:
@@ -168,12 +135,11 @@ class FuelPrice(Process):
                 self.save_data(user.fuel_prices)
 
         user_management.save_users(users)
-
         self.logger.debug("Scraped fuel prices")
 
     @staticmethod
     def get_results(chat_id):
-        return user_management.get_fuel_prices(chat_id)
+        return user_management.get_fuel_prices(chat_id)[:5]
 
     @staticmethod
     def get_graph():

@@ -10,7 +10,8 @@ message User {
     optional double latitude = 5;
     optional double price_limit = 6 [default = 1.5];
     optional double lowest_price = 7 [default = 1.5];
-    repeated FuelPrice fuel_prices = 8;
+    optional int32 fuel_kind = 8;
+    repeated FuelPrice fuel_prices = 9;
 
 }
 

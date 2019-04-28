@@ -1,4 +1,5 @@
 import os
+import base64
 
 import config
 from users import users_pb2
@@ -46,10 +47,13 @@ def show_users():
     print(user_data)
 
 
-def load_users():
-    f = open(folder + 'database.db', 'rb')
+def load_users(b_64=None):
     user_data = users_pb2.UserManagement()
-    user_data.ParseFromString(f.read())
+    if b_64:
+        user_data.ParseFromString(base64.b64decode(b_64))
+    else:
+        f = open(folder + 'database.db', 'rb')
+        user_data.ParseFromString(f.read())
     return user_data
 
 
@@ -129,7 +133,7 @@ def user_by_id(chat_id):
             return user
 
 
-def change_user(chat_id, privs):
+def change_user(chat_id, fuel_kind):
     f = open(folder + 'database.db', 'rb')
     user_data = users_pb2.UserManagement()
     user_data.ParseFromString(f.read())
@@ -137,7 +141,7 @@ def change_user(chat_id, privs):
 
     for user in user_data.users:
         if user.chat_id == chat_id:
-            user.privs = privs
+            user.fuel_kind = fuel_kind
 
     f = open(folder + 'database.db', "wb")
     f.write(user_data.SerializeToString())

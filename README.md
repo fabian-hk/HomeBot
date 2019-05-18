@@ -1,7 +1,7 @@
 # Installation requirements
 - python3
-- apt packages: ``sudo apt install xvfb libatlas-base-dev firefox-esr python3-scipy``
-- pip packages: ```pip3 install telepot wakeonlan matplotlib selenium pandas protobuf pyvirtualdisplay```
+- apt packages: ``sudo apt install libatlas-base-devpython3-scipy``
+- pip packages: ```pip3 install telepot wakeonlan matplotlib pandas protobuf```
 - create 'user_pb2.py' file from project root directory ``protoc --python_out=./ users/users.proto``
 
 ### Create config files

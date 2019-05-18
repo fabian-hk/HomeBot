@@ -1,9 +1,12 @@
+# folders
 .idea/
 __pycache__/
 powerwall/__pycache__/
 fuelPrice/__pycache__/
 wol/__pycache__/
-fuelprice/lib/
+fuelprice/webscraper/out/
+
+# files
 config.py
 *.png
 *.svg

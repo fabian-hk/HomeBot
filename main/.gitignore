@@ -1,6 +1,6 @@
 # folders
 .idea/
-__pycache__/
+*__pycache__/
 powerwall/__pycache__/
 fuelPrice/__pycache__/
 wol/__pycache__/

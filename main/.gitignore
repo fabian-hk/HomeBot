@@ -8,6 +8,7 @@ fuelprice/webscraper/out/
 
 # files
 config.py
+bot.conf
 *.png
 *.svg
 *.xlsx

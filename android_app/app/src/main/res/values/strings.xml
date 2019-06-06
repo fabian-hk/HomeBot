@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">Bot</string>
+    <string name="ap_mac">AP MAC:</string>
+    <string name="save_net">Save network config</string>
+    <string name="shade_config">Window shade config:</string>
+    <string name="shade">SHADE_VALUE</string>
+    <string name="preference_file">com.example.bot.PREFERENCE_FILE</string>
+    <string name="bssid">IOT_NETWORK_BSSID</string>
+    <string name="iot_ip">IOT_DEVICE_IP</string>
+    <string name="sh0">IOT_SHADE_0_VALUES</string>
+    <string name="sh1">IOT_SHADE_1_VALUES</string>
+    <string name="sh2">IOT_SHADE_2_VALUES</string>
 </resources>

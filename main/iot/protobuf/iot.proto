@@ -1,8 +1,0 @@
-syntax = "proto3";
-
-package iot;
-
-message Shades {
-    int64 chat_id = 1;
-    repeated int32 positions = 2;
-}

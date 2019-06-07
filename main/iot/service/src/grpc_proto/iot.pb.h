@@ -161,10 +161,10 @@ class Schedule final :
 
   // accessors -------------------------------------------------------
 
-  // repeated int32 positions = 2;
+  // repeated int32 positions = 3;
   int positions_size() const;
   void clear_positions();
-  static const int kPositionsFieldNumber = 2;
+  static const int kPositionsFieldNumber = 3;
   ::google::protobuf::int32 positions(int index) const;
   void set_positions(int index, ::google::protobuf::int32 value);
   void add_positions(::google::protobuf::int32 value);
@@ -173,9 +173,23 @@ class Schedule final :
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
       mutable_positions();
 
-  // int64 time = 1;
+  // string id = 1;
+  void clear_id();
+  static const int kIdFieldNumber = 1;
+  const ::std::string& id() const;
+  void set_id(const ::std::string& value);
+  #if LANG_CXX11
+  void set_id(::std::string&& value);
+  #endif
+  void set_id(const char* value);
+  void set_id(const char* value, size_t size);
+  ::std::string* mutable_id();
+  ::std::string* release_id();
+  void set_allocated_id(::std::string* id);
+
+  // int64 time = 2;
   void clear_time();
-  static const int kTimeFieldNumber = 1;
+  static const int kTimeFieldNumber = 2;
   ::google::protobuf::int64 time() const;
   void set_time(::google::protobuf::int64 value);
 
@@ -186,6 +200,7 @@ class Schedule final :
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 > positions_;
   mutable std::atomic<int> _positions_cached_byte_size_;
+  ::google::protobuf::internal::ArenaStringPtr id_;
   ::google::protobuf::int64 time_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_iot_2eproto;
@@ -313,7 +328,60 @@ class Status final :
 #endif  // __GNUC__
 // Schedule
 
-// int64 time = 1;
+// string id = 1;
+inline void Schedule::clear_id() {
+  id_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& Schedule::id() const {
+  // @@protoc_insertion_point(field_get:iot.Schedule.id)
+  return id_.GetNoArena();
+}
+inline void Schedule::set_id(const ::std::string& value) {
+  
+  id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:iot.Schedule.id)
+}
+#if LANG_CXX11
+inline void Schedule::set_id(::std::string&& value) {
+  
+  id_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:iot.Schedule.id)
+}
+#endif
+inline void Schedule::set_id(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:iot.Schedule.id)
+}
+inline void Schedule::set_id(const char* value, size_t size) {
+  
+  id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:iot.Schedule.id)
+}
+inline ::std::string* Schedule::mutable_id() {
+  
+  // @@protoc_insertion_point(field_mutable:iot.Schedule.id)
+  return id_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* Schedule::release_id() {
+  // @@protoc_insertion_point(field_release:iot.Schedule.id)
+  
+  return id_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void Schedule::set_allocated_id(::std::string* id) {
+  if (id != nullptr) {
+    
+  } else {
+    
+  }
+  id_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), id);
+  // @@protoc_insertion_point(field_set_allocated:iot.Schedule.id)
+}
+
+// int64 time = 2;
 inline void Schedule::clear_time() {
   time_ = PROTOBUF_LONGLONG(0);
 }
@@ -327,7 +395,7 @@ inline void Schedule::set_time(::google::protobuf::int64 value) {
   // @@protoc_insertion_point(field_set:iot.Schedule.time)
 }
 
-// repeated int32 positions = 2;
+// repeated int32 positions = 3;
 inline int Schedule::positions_size() const {
   return positions_.size();
 }

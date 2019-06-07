@@ -17,6 +17,7 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var bssidView: TextView
     lateinit var ipEditText: EditText
+    lateinit var shadeIdEditText: EditText
     lateinit var shade0EditText: EditText
     lateinit var shade1EditText: EditText
     lateinit var shade2EditText: EditText
@@ -29,6 +30,7 @@ class MainActivity : AppCompatActivity() {
         bssidView = findViewById(R.id.ssid);
         ipEditText = findViewById(R.id.iot_ip)
 
+        shadeIdEditText = findViewById(R.id.id)
         shade0EditText = findViewById(R.id.shade0)
         shade1EditText = findViewById(R.id.shade1)
         shade2EditText = findViewById(R.id.shade2)
@@ -36,6 +38,7 @@ class MainActivity : AppCompatActivity() {
         // init GUI with saved values
         ipEditText.setText(getSharedPreferenceString(applicationContext, getString(R.string.iot_ip)))
 
+        shadeIdEditText.setText(getSharedPreferenceString(applicationContext, getString(R.string.sh_id)))
         shade0EditText.setText(getSharedPreferenceInt(applicationContext, getString(R.string.sh0)).toString())
         shade1EditText.setText(getSharedPreferenceInt(applicationContext, getString(R.string.sh1)).toString())
         shade2EditText.setText(getSharedPreferenceInt(applicationContext, getString(R.string.sh2)).toString())
@@ -72,6 +75,7 @@ class MainActivity : AppCompatActivity() {
                 val sharedPref =
                     applicationContext.getSharedPreferences(getString(R.string.preference_file), Context.MODE_PRIVATE)
                 with(sharedPref.edit()) {
+                    putString(getString(R.string.sh_id), shadeIdEditText.text.toString())
                     putString(getString(R.string.bssid), bssidView.text.toString())
                     putString(getString(R.string.iot_ip), ipEditText.text.toString())
                     putInt(getString(R.string.sh0), sh0)

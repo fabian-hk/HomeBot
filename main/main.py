@@ -7,7 +7,7 @@ from multiprocessing import Queue
 from fuelprice.fuelprice import FuelPrice
 from wol import wakeonlan
 from powerwall.powerwall import Powerwall
-from iot.iot import IOT
+import iot.iot as IOT
 from users import users
 import config
 
@@ -26,9 +26,6 @@ chat_ids, admin_ids = users.user_lists()
 
 # initialize queue to send data between main and FuelPrice
 q = Queue()
-
-# initialize iot class
-iot = None
 
 
 def handle(msg):
@@ -81,7 +78,7 @@ def handle(msg):
                     logger.error(e)
             elif cmd[0] == "iot" and len(cmd) == 3 and user.privs <= 1:
                 try:
-                    bot.sendMessage(chat_id, iot.control_shade(cmd[1], cmd[2]))
+                    bot.sendMessage(chat_id, IOT.control_shade(cmd[1], cmd[2]))
                 except Exception as e:
                     logger.error(e)
             elif cmd[0] == "help" and user.privs <= 3:
@@ -122,9 +119,6 @@ def start(bot=None):
 if __name__ == "__main__":
     token = open(config.root_folder + "secret", "r")
     bot = telepot.Bot(token.readline())
-
-    iot = IOT(bot)
-    iot.start()
 
     pw = Powerwall()
     pw.start()

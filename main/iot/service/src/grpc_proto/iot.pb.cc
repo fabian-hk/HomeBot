@@ -69,6 +69,7 @@ const ::google::protobuf::uint32 TableStruct_iot_2eproto::offsets[] PROTOBUF_SEC
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::iot::Schedule, id_),
   PROTOBUF_FIELD_OFFSET(::iot::Schedule, time_),
   PROTOBUF_FIELD_OFFSET(::iot::Schedule, positions_),
   ~0u,  // no _has_bits_
@@ -80,7 +81,7 @@ const ::google::protobuf::uint32 TableStruct_iot_2eproto::offsets[] PROTOBUF_SEC
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::iot::Schedule)},
-  { 7, -1, sizeof(::iot::Status)},
+  { 8, -1, sizeof(::iot::Status)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -95,16 +96,17 @@ static ::google::protobuf::Message const * const file_default_instances[] = {
 };
 
 const char descriptor_table_protodef_iot_2eproto[] =
-  "\n\tiot.proto\022\003iot\"+\n\010Schedule\022\014\n\004time\030\001 \001"
-  "(\003\022\021\n\tpositions\030\002 \003(\005\"\030\n\006Status\022\016\n\006statu"
-  "s\030\001 \001(\00527\n\003IOT\0220\n\020SetShadeSchedule\022\r.iot"
-  ".Schedule\032\013.iot.Status\"\000B.\n\032com.example."
-  "bot.grpc_protoB\010IotProtoP\001\242\002\003IOTb\006proto3"
+  "\n\tiot.proto\022\003iot\"7\n\010Schedule\022\n\n\002id\030\001 \001(\t"
+  "\022\014\n\004time\030\002 \001(\003\022\021\n\tpositions\030\003 \003(\005\"\030\n\006Sta"
+  "tus\022\016\n\006status\030\001 \001(\00527\n\003IOT\0220\n\020SetShadeSc"
+  "hedule\022\r.iot.Schedule\032\013.iot.Status\"\000B.\n\032"
+  "com.example.bot.grpc_protoB\010IotProtoP\001\242\002"
+  "\003IOTb\006proto3"
   ;
 ::google::protobuf::internal::DescriptorTable descriptor_table_iot_2eproto = {
   false, InitDefaults_iot_2eproto, 
   descriptor_table_protodef_iot_2eproto,
-  "iot.proto", &assign_descriptors_table_iot_2eproto, 200,
+  "iot.proto", &assign_descriptors_table_iot_2eproto, 212,
 };
 
 void AddDescriptors_iot_2eproto() {
@@ -127,6 +129,7 @@ class Schedule::HasBitSetters {
 };
 
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int Schedule::kIdFieldNumber;
 const int Schedule::kTimeFieldNumber;
 const int Schedule::kPositionsFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
@@ -141,11 +144,18 @@ Schedule::Schedule(const Schedule& from)
       _internal_metadata_(nullptr),
       positions_(from.positions_) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
+  id_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.id().size() > 0) {
+    id_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.id_);
+  }
   time_ = from.time_;
   // @@protoc_insertion_point(copy_constructor:iot.Schedule)
 }
 
 void Schedule::SharedCtor() {
+  ::google::protobuf::internal::InitSCC(
+      &scc_info_Schedule_iot_2eproto.base);
+  id_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   time_ = PROTOBUF_LONGLONG(0);
 }
 
@@ -155,6 +165,7 @@ Schedule::~Schedule() {
 }
 
 void Schedule::SharedDtor() {
+  id_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
 void Schedule::SetCachedSize(int size) const {
@@ -173,6 +184,7 @@ void Schedule::Clear() {
   (void) cached_has_bits;
 
   positions_.Clear();
+  id_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   time_ = PROTOBUF_LONGLONG(0);
   _internal_metadata_.Clear();
 }
@@ -190,16 +202,32 @@ const char* Schedule::_InternalParse(const char* begin, const char* end, void* o
     ptr = ::google::protobuf::io::Parse32(ptr, &tag);
     GOOGLE_PROTOBUF_PARSER_ASSERT(ptr);
     switch (tag >> 3) {
-      // int64 time = 1;
+      // string id = 1;
       case 1: {
-        if (static_cast<::google::protobuf::uint8>(tag) != 8) goto handle_unusual;
+        if (static_cast<::google::protobuf::uint8>(tag) != 10) goto handle_unusual;
+        ptr = ::google::protobuf::io::ReadSize(ptr, &size);
+        GOOGLE_PROTOBUF_PARSER_ASSERT(ptr);
+        ctx->extra_parse_data().SetFieldName("iot.Schedule.id");
+        object = msg->mutable_id();
+        if (size > end - ptr + ::google::protobuf::internal::ParseContext::kSlopBytes) {
+          parser_till_end = ::google::protobuf::internal::GreedyStringParserUTF8;
+          goto string_till_end;
+        }
+        GOOGLE_PROTOBUF_PARSER_ASSERT(::google::protobuf::internal::StringCheckUTF8(ptr, size, ctx));
+        ::google::protobuf::internal::InlineGreedyStringParser(object, ptr, size, ctx);
+        ptr += size;
+        break;
+      }
+      // int64 time = 2;
+      case 2: {
+        if (static_cast<::google::protobuf::uint8>(tag) != 16) goto handle_unusual;
         msg->set_time(::google::protobuf::internal::ReadVarint(&ptr));
         GOOGLE_PROTOBUF_PARSER_ASSERT(ptr);
         break;
       }
-      // repeated int32 positions = 2;
-      case 2: {
-        if (static_cast<::google::protobuf::uint8>(tag) == 18) {
+      // repeated int32 positions = 3;
+      case 3: {
+        if (static_cast<::google::protobuf::uint8>(tag) == 26) {
           ptr = ::google::protobuf::io::ReadSize(ptr, &size);
           GOOGLE_PROTOBUF_PARSER_ASSERT(ptr);
           parser_till_end = ::google::protobuf::internal::PackedInt32Parser;
@@ -209,12 +237,12 @@ const char* Schedule::_InternalParse(const char* begin, const char* end, void* o
           if (size) ptr = parser_till_end(ptr, newend, object, ctx);
           GOOGLE_PROTOBUF_PARSER_ASSERT(ptr == newend);
           break;
-        } else if (static_cast<::google::protobuf::uint8>(tag) != 16) goto handle_unusual;
+        } else if (static_cast<::google::protobuf::uint8>(tag) != 24) goto handle_unusual;
         do {
           msg->add_positions(::google::protobuf::internal::ReadVarint(&ptr));
           GOOGLE_PROTOBUF_PARSER_ASSERT(ptr);
           if (ptr >= end) break;
-        } while ((::google::protobuf::io::UnalignedLoad<::google::protobuf::uint64>(ptr) & 255) == 16 && (ptr += 1));
+        } while ((::google::protobuf::io::UnalignedLoad<::google::protobuf::uint64>(ptr) & 255) == 24 && (ptr += 1));
         break;
       }
       default: {
@@ -232,6 +260,10 @@ const char* Schedule::_InternalParse(const char* begin, const char* end, void* o
     }  // switch
   }  // while
   return ptr;
+string_till_end:
+  static_cast<::std::string*>(object)->clear();
+  static_cast<::std::string*>(object)->reserve(size);
+  goto len_delim_till_end;
 len_delim_till_end:
   return ctx->StoreAndTailCall(ptr, end, {_InternalParse, msg},
                                {parser_till_end, object}, size);
@@ -247,9 +279,24 @@ bool Schedule::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // int64 time = 1;
+      // string id = 1;
       case 1: {
-        if (static_cast< ::google::protobuf::uint8>(tag) == (8 & 0xFF)) {
+        if (static_cast< ::google::protobuf::uint8>(tag) == (10 & 0xFF)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_id()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->id().data(), static_cast<int>(this->id().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "iot.Schedule.id"));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // int64 time = 2;
+      case 2: {
+        if (static_cast< ::google::protobuf::uint8>(tag) == (16 & 0xFF)) {
 
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::int64, ::google::protobuf::internal::WireFormatLite::TYPE_INT64>(
@@ -260,16 +307,16 @@ bool Schedule::MergePartialFromCodedStream(
         break;
       }
 
-      // repeated int32 positions = 2;
-      case 2: {
-        if (static_cast< ::google::protobuf::uint8>(tag) == (18 & 0xFF)) {
+      // repeated int32 positions = 3;
+      case 3: {
+        if (static_cast< ::google::protobuf::uint8>(tag) == (26 & 0xFF)) {
           DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitive<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
                  input, this->mutable_positions())));
-        } else if (static_cast< ::google::protobuf::uint8>(tag) == (16 & 0xFF)) {
+        } else if (static_cast< ::google::protobuf::uint8>(tag) == (24 & 0xFF)) {
           DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitiveNoInline<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 1, 18u, input, this->mutable_positions())));
+                 1, 26u, input, this->mutable_positions())));
         } else {
           goto handle_unusual;
         }
@@ -303,14 +350,24 @@ void Schedule::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // int64 time = 1;
-  if (this->time() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt64(1, this->time(), output);
+  // string id = 1;
+  if (this->id().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->id().data(), static_cast<int>(this->id().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "iot.Schedule.id");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      1, this->id(), output);
   }
 
-  // repeated int32 positions = 2;
+  // int64 time = 2;
+  if (this->time() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt64(2, this->time(), output);
+  }
+
+  // repeated int32 positions = 3;
   if (this->positions_size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteTag(2, ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED, output);
+    ::google::protobuf::internal::WireFormatLite::WriteTag(3, ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED, output);
     output->WriteVarint32(_positions_cached_byte_size_.load(
         std::memory_order_relaxed));
   }
@@ -332,15 +389,26 @@ void Schedule::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // int64 time = 1;
-  if (this->time() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt64ToArray(1, this->time(), target);
+  // string id = 1;
+  if (this->id().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->id().data(), static_cast<int>(this->id().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "iot.Schedule.id");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        1, this->id(), target);
   }
 
-  // repeated int32 positions = 2;
+  // int64 time = 2;
+  if (this->time() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt64ToArray(2, this->time(), target);
+  }
+
+  // repeated int32 positions = 3;
   if (this->positions_size() > 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteTagToArray(
-      2,
+      3,
       ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED,
       target);
     target = ::google::protobuf::io::CodedOutputStream::WriteVarint32ToArray(
@@ -371,7 +439,7 @@ size_t Schedule::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // repeated int32 positions = 2;
+  // repeated int32 positions = 3;
   {
     size_t data_size = ::google::protobuf::internal::WireFormatLite::
       Int32Size(this->positions_);
@@ -386,7 +454,14 @@ size_t Schedule::ByteSizeLong() const {
     total_size += data_size;
   }
 
-  // int64 time = 1;
+  // string id = 1;
+  if (this->id().size() > 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->id());
+  }
+
+  // int64 time = 2;
   if (this->time() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::Int64Size(
@@ -421,6 +496,10 @@ void Schedule::MergeFrom(const Schedule& from) {
   (void) cached_has_bits;
 
   positions_.MergeFrom(from.positions_);
+  if (from.id().size() > 0) {
+
+    id_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.id_);
+  }
   if (from.time() != 0) {
     set_time(from.time());
   }
@@ -452,6 +531,8 @@ void Schedule::InternalSwap(Schedule* other) {
   using std::swap;
   _internal_metadata_.Swap(&other->_internal_metadata_);
   positions_.InternalSwap(&other->positions_);
+  id_.Swap(&other->id_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+    GetArenaNoVirtual());
   swap(time_, other->time_);
 }
 

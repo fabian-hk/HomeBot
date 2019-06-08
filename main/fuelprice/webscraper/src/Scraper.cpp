@@ -21,7 +21,6 @@ size_t writeFunction(void *ptr, size_t size, size_t nmemb, std::string *data) {
     return size * nmemb;
 }
 
-// path = /home/fabian/Documents/bot/data/users/database.db
 std::string scraper(std::string userPath) {
     // Verify that the version of the library that we linked against is
     // compatible with the version of the headers we compiled against.
@@ -33,7 +32,6 @@ std::string scraper(std::string userPath) {
     input.close();
 
     auto curl = curl_easy_init();
-
     for (int i = 0; i < userManagement.users_size(); i++) {
         users::User *user = userManagement.mutable_users(i);
 
@@ -68,7 +66,7 @@ std::string scraper(std::string userPath) {
             std::string token;
             std::istringstream tokenStream(response_string);
 
-            std::regex begin("^[[:blank:]]*<a href=\"/tankstelle_details/[[:digit:]]*\">[[:blank:]]*$");
+            std::regex begin("^[[:blank:]]*<a href=\"/tankstelle_details/[[:digit:]]*\".*$");
             std::regex name("^[[:blank:]]*<span class=\"fuel-station-location-name\">.*</span>[[:blank:]]*$");
             std::regex street("^[[:blank:]]*<div class=\"fuel-station-location-street\">.*</div>[[:blank:]]*$");
             std::regex city("^[[:blank:]]*<div class=\"fuel-station-location-city\">.*</div>[[:blank:]]*$");
@@ -89,7 +87,7 @@ std::string scraper(std::string userPath) {
                     boost::replace_all(tmp, "<sup>", "");
                     boost::replace_all(tmp, "</sup>", "");
                     if(debug) std::cout << "Price: " << boost::lexical_cast<double>(tmp) << std::endl;
-                    fp->set_price(boost::lexical_cast<double>(tmp) );
+                    fp->set_price(boost::lexical_cast<double>(tmp));
                 } else if (std::regex_match(token, street)) {
                     b = token.find("<div class=\"fuel-station-location-street\">") + 42;
                     e = token.find("</div>");

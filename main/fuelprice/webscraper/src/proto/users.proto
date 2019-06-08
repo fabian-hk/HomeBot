@@ -1,0 +1,28 @@
+syntax = "proto2";
+
+package users;
+
+message User {
+    required int64 chat_id = 1;
+    optional string username = 2;
+    optional int32 privs = 3 [default = 3];
+    optional double longitude = 4;
+    optional double latitude = 5;
+    optional double price_limit = 6 [default = 1.5];
+    optional double lowest_price = 7 [default = 1.5];
+    optional int32 fuel_kind = 8;
+    repeated FuelPrice fuel_prices = 9;
+
+}
+
+message FuelPrice {
+    required string name = 1;
+    required string street = 2;
+    required string city = 3;
+    required double price = 4;
+
+}
+
+message UserManagement {
+    repeated User users = 1;
+}

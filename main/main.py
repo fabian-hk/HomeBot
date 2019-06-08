@@ -7,7 +7,7 @@ from multiprocessing import Queue
 from fuelprice.fuelprice import FuelPrice
 from wol import wakeonlan
 from powerwall.powerwall import Powerwall
-import iot.iot as IOT
+from iot.iot import IOT
 from users import users
 import config
 
@@ -76,11 +76,17 @@ def handle(msg):
                     bot.sendPhoto(chat_id, Powerwall.get_current_value())
                 except Exception as e:
                     logger.error(e)
-            elif cmd[0] == "iot" and len(cmd) == 3 and user.privs <= 1:
-                try:
-                    bot.sendMessage(chat_id, IOT.control_shade(cmd[1], cmd[2]))
-                except Exception as e:
-                    logger.error(e)
+            elif cmd[0] == "iot" and user.privs <= 1:
+                if len(cmd) == 3:
+                    try:
+                        bot.sendMessage(chat_id, IOT.control_shade(cmd[1], cmd[2]))
+                    except Exception as e:
+                        logger.error(e)
+                elif len(cmd) == 2:
+                    try:
+                        bot.sendMessage(chat_id, IOT.get_status(cmd[1]))
+                    except Exception as e:
+                        logger.error(e)
             elif cmd[0] == "help" and user.privs <= 3:
                 try:
                     help = "fuel: shows fuel prices for your location\nfuel stat: shows graphs from the fuel prices " \
@@ -125,5 +131,7 @@ if __name__ == "__main__":
 
     fp = FuelPrice(bot, q)
     fp.start()
+
+    iot = IOT()
 
     start(bot)

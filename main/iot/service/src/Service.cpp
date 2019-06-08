@@ -66,7 +66,7 @@ void startService() {
     iot::Schedule schedule;
 
     while (true) {
-        std::this_thread::sleep_for(std::chrono::seconds(1));
+        std::this_thread::sleep_for(std::chrono::seconds(20));
 
         std::chrono::milliseconds ms = std::chrono::duration_cast<std::chrono::milliseconds>(
                 std::chrono::system_clock::now().time_since_epoch());
@@ -126,6 +126,7 @@ bool sendControlRequest(const std::string id, std::vector<char> values) {
         ret = read(sock, buffer, bufferSize);
         send(sock, values.data(), values.size(), 0);
         ret = read(sock, buffer, bufferSize);
+        close(sock);
         std::cout << "Received: " << (int) buffer[0] << std::endl;
 
         if (buffer[0] == 0) {
@@ -157,6 +158,50 @@ std::string controlWindowShade(std::string id, std::string values) {
         return "Request failed";
     }
     return "Request successful";
+}
+
+std::string getStatus(const std::string id) {
+    auto db = Database::getInstance();
+    std::unordered_map<std::string, std::vector<std::string>> *iotConfig;
+    iotConfig = db->getIotData();
+    int sock, ret = 0;
+    struct sockaddr_in serv_addr;
+
+    const int bufferSize = 16;
+    char buffer[bufferSize] = {0};
+    if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
+        return "Connection failed";
+    }
+
+    memset(&serv_addr, '0', sizeof(serv_addr));
+
+    serv_addr.sin_family = AF_INET;
+    serv_addr.sin_port = htons(PORT);
+
+    std::string addr = (*iotConfig)[id][0];
+    if (inet_pton(AF_INET, addr.c_str(), &serv_addr.sin_addr) <= 0) {
+        return "Connection failed";
+    }
+
+    if (connect(sock, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) {
+        return "Connection failed";;
+    } else {
+        ret = read(sock, buffer, bufferSize);
+        char payload[1] = {0x01};
+        send(sock, payload, sizeof(payload), 0);
+        ret = read(sock, buffer, bufferSize);
+        close(sock);
+
+        std::string retVal;
+        for(size_t i=0; i<3; i++) {
+            retVal += std::to_string((int) buffer[i]);
+            if(i<2) {
+                retVal += ",";
+            }
+        }
+
+        return "Status: " + retVal;
+    }
 }
 
 

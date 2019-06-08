@@ -13,16 +13,22 @@ find_package(Boost 1.67 EXACT REQUIRED COMPONENTS python)
 
 include_directories("${Boost_INCLUDE_DIRS}" "/usr/include/python3.7")
 
+add_library(service SHARED ../../src/Service.cpp ../../src/Database.cpp ../../src/grpc_proto/iot.pb.cc ../../src/grpc_proto/iot.grpc.pb.cc)
+set_target_properties(service PROPERTIES PUBLIC_HEADER ../../src/Service.h)
+target_link_libraries(service grpc++)
+target_link_libraries(service grpc++_reflection)
+target_link_libraries(service protobuf)
 
-add_executable(main ../../src/Main.cpp ../../src/Service.cpp ../../src/Database.cpp ../../src/grpc_proto/iot.pb.cc ../../src/grpc_proto/iot.grpc.pb.cc)
-
-target_link_libraries(main grpc++)
-target_link_libraries(main grpc++_reflection)
-target_link_libraries(main protobuf)
-
-add_library(iotservice SHARED ../../src/IotService.cpp ../../src/Service.cpp ../../src/Database.cpp ../../src/grpc_proto/iot.pb.cc ../../src/grpc_proto/iot.grpc.pb.cc)
+add_library(iotservice SHARED ../../src/IotService.cpp )
+target_link_libraries(iotservice service)
 target_link_libraries(iotservice boost_python37)
 target_link_libraries(iotservice grpc++)
 target_link_libraries(iotservice grpc++_reflection)
 target_link_libraries(iotservice protobuf)
+
+add_executable(IotService ../../src/Main.cpp)
+target_link_libraries(IotService grpc++)
+target_link_libraries(IotService grpc++_reflection)
+target_link_libraries(IotService protobuf)
+target_link_libraries(IotService service)
 

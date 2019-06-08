@@ -1,13 +1,11 @@
 #include <iostream>
 #include "Service.h"
 
-
 /**
- * Just for testing purpose
+ * Service to run in the background
  * @return
  */
 int main() {
-    std::cout << controlWindowShade("sh", "30,50,80") << std::endl;
+    startService();
+    return 0;
 }
-
-

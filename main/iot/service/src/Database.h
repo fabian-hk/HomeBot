@@ -7,6 +7,7 @@
 class Database {
 private:
     static Database* _instance;
+    std::string configFilePath;
     std::unordered_map<std::string, std::vector<std::string>> data;
     std::unordered_map<std::string, std::string> config;
 
@@ -21,6 +22,8 @@ public:
     std::unordered_map<std::string, std::vector<std::string>>* getIotData();
     std::unordered_map<std::string, std::string>* getConfig();
     bool saveIotData(std::unordered_map<std::string, std::vector<std::string>>* d);
+
+    void setConfigFilePath(std::string path);
 };
 
 #endif

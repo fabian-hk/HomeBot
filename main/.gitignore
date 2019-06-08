@@ -7,7 +7,6 @@ wol/__pycache__/
 fuelprice/webscraper/out/
 
 # files
-config.py
 bot.conf
 *.png
 *.svg

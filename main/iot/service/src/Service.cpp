@@ -52,7 +52,6 @@ public:
 };
 
 void startService() {
-    std::cout << "Starting.." << std::endl;
     std::string server_address("0.0.0.0:1616");
     IotImpl service;
 
@@ -136,7 +135,12 @@ bool sendControlRequest(const std::string id, std::vector<char> values) {
     }
 }
 
-std::string controlWindowShade(std::string id, std::string values) {
+/*
+ * Method for python binding
+ */
+std::string controlWindowShade(std::string id, std::string values, std::string configPath) {
+    auto db = Database::getInstance();
+    db->setConfigFilePath(configPath);
     std::vector<std::string> valuesSplit;
     boost::split(valuesSplit, values, boost::is_any_of(","));
     int tmp;
@@ -160,8 +164,9 @@ std::string controlWindowShade(std::string id, std::string values) {
     return "Request successful";
 }
 
-std::string getStatus(const std::string id) {
+std::string getStatus(const std::string id, std::string configPath) {
     auto db = Database::getInstance();
+    db->setConfigFilePath(configPath);
     std::unordered_map<std::string, std::vector<std::string>> *iotConfig;
     iotConfig = db->getIotData();
     int sock, ret = 0;

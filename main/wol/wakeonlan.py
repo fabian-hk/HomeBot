@@ -3,13 +3,15 @@ import os
 
 import config
 
+conf = config.load_config()
+
 
 def wake_desktop():
-    wakeonlan.send_magic_packet(config.wol_pc)
+    wakeonlan.send_magic_packet(conf["network"]["wol_pc"])
 
 
 def is_on():
-    r = os.system("ping -c 1 " + config.on_pc)
+    r = os.system("ping -c 1 -W 1 " + conf["network"]["on_pc"])
     if r == 0:
         return "Desktop is online"
     else:

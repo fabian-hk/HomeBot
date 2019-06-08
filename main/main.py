@@ -12,14 +12,15 @@ from users import users
 import config
 
 # initialize logger
-log_folder = config.data_folder + "log/"
+conf = config.load_config()
+log_folder = conf["paths"]["data_folder"] + "log/"
 if not os.path.isdir(log_folder):
     os.makedirs(log_folder)
 logging.basicConfig(filename=log_folder + 'bot.log',
                     format='%(levelname)s %(asctime)s %(filename)s Line %(lineno)d:\t%(message)s',
                     datefmt='%d-%m-%Y %H:%M:%S')
 logger = logging.getLogger('main')
-logger.setLevel(config.debug_level)
+logger.setLevel(int(conf["defaults"]["debug_level"]))
 logger.debug("main.py started")
 
 chat_ids, admin_ids = users.user_lists()
@@ -110,7 +111,7 @@ def handle(msg):
 
 def start(bot=None):
     if bot is None:
-        token = open(config.root_folder + "secret", "r")
+        token = open(conf["paths"]["root_folder"] + "secret", "r")
         bot = telepot.Bot(token.readline())
     bot.sendMessage(admin_ids[0], "Bot is running")
     logger.debug("Initialized bot")
@@ -123,7 +124,7 @@ def start(bot=None):
 
 
 if __name__ == "__main__":
-    token = open(config.root_folder + "secret", "r")
+    token = open(conf["paths"]["root_folder"] + "secret", "r")
     bot = telepot.Bot(token.readline())
 
     pw = Powerwall()

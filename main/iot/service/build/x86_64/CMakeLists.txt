@@ -15,6 +15,7 @@ include_directories("${Boost_INCLUDE_DIRS}" "/usr/include/python3.7")
 
 add_library(service SHARED ../../src/Service.cpp ../../src/Database.cpp ../../src/grpc_proto/iot.pb.cc ../../src/grpc_proto/iot.grpc.pb.cc)
 set_target_properties(service PROPERTIES PUBLIC_HEADER ../../src/Service.h)
+set_target_properties(service PROPERTIES PUBLIC_HEADER ../../src/Database.h)
 target_link_libraries(service grpc++)
 target_link_libraries(service grpc++_reflection)
 target_link_libraries(service protobuf)

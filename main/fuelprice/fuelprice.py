@@ -19,21 +19,23 @@ class FuelPrice(Process):
         self.bot = bot
         self.q = q
 
+        self.conf = config.load_config()
+
         # initialize logger
-        log_folder = config.data_folder + "log/"
+        log_folder = self.conf["paths"]["data_folder"] + "log/"
         if not os.path.isdir(log_folder):
             os.makedirs(log_folder)
         logging.basicConfig(filename=log_folder + 'bot.log',
                             format='%(levelname)s %(asctime)s %(filename)s Line %(lineno)d:\t%(message)s',
                             datefmt='%d-%m-%Y %H:%M:%S')
         self.logger = logging.getLogger('fuelprice')
-        self.logger.setLevel(config.debug_level)
+        self.logger.setLevel(int(self.conf["defaults"]["debug_level"]))
         self.logger.debug("fuelprice.py started")
 
         self.send_results = 5
 
         # initialization
-        self.folder = config.data_folder + "fuelprice/"
+        self.folder = self.conf["paths"]["data_folder"] + "fuelprice/"
         if not os.path.isdir(self.folder):
             os.makedirs(self.folder)
 
@@ -120,7 +122,7 @@ class FuelPrice(Process):
         plt.close()
 
     def scrap_web_data(self):
-        ser_users = libwebscraper.scraper(config.data_folder + "users/database.db")
+        ser_users = libwebscraper.scraper(self.conf["paths"]["data_folder"] + "users/database.db")
 
         users = user_management.load_users(ser_users)
 
@@ -143,7 +145,8 @@ class FuelPrice(Process):
 
     @staticmethod
     def get_graph():
-        return open(config.data_folder + "fuelprice/fuel.png", 'rb')
+        conf = config.load_config()
+        return open(conf["paths"]["data_folder"] + "fuelprice/fuel.png", 'rb')
 
     def run(self):
         reset_price = True

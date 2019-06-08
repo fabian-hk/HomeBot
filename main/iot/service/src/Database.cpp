@@ -21,9 +21,12 @@ std::unordered_map<std::string, std::vector<std::string>>* Database::getIotData(
     return &data;
 }
 
+void Database::setConfigFilePath(std::string path) {
+    configFilePath = path;
+}
+
 bool Database::loadIotData() {
     getConfig();
-    std::cout << "Load iot.csv from disk " << std::endl;
     std::ifstream file(config["data_folder"]+"iot/iot.csv");
     
     std::vector<std::string> lineArr;
@@ -55,8 +58,7 @@ std::unordered_map<std::string, std::string>* Database::getConfig() {
 }
 
 bool Database::loadConfig() {
-    std::cout << "Load config from disk" << std::endl;
-    std::ifstream file("bot.conf");
+    std::ifstream file(configFilePath);
     
     std::vector<std::string> lineArr;
     std::string line;

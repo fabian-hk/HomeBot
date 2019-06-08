@@ -4,11 +4,12 @@ import base64
 import config
 from users import users_pb2
 
-folder = config.data_folder + 'users/'
+conf = config.load_config()
+folder = conf["paths"]["data_folder"] + 'users/'
 
 
-def add_user(chat_id, username=None, privs=3, longitude=config.default_longitude,
-             latitude=config.default_latitude):
+def add_user(chat_id, username=None, privs=3, longitude=conf["defaults"]["default_longitude"],
+             latitude=conf["defaults"]["default_latitude"]):
     user_data = users_pb2.UserManagement()
 
     if os.path.isfile(folder + 'database.db'):

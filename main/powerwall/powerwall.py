@@ -18,20 +18,22 @@ class Powerwall(Process):
         super().__init__()
         self.cols = ["time", "solar", "home", "powerwall", "grid", "capacity"]
 
+        self.conf = config.load_config()
+
         # create data folder if it doesn't exists
-        self.folder = config.data_folder + "powerwall/"
+        self.folder = self.conf["paths"]["data_folder"] + "powerwall/"
         if not os.path.isdir(self.folder):
             os.makedirs(self.folder)
 
         # initialize logger
-        log_folder = config.data_folder + "log/"
+        log_folder = self.conf["paths"]["data_folder"] + "log/"
         if not os.path.isdir(log_folder):
             os.makedirs(log_folder)
         logging.basicConfig(filename=log_folder + 'bot.log',
                             format='%(levelname)s %(asctime)s %(filename)s Line %(lineno)d:\t%(message)s',
                             datefmt='%d-%m-%Y %H:%M:%S')
         self.logger = logging.getLogger('powerwall')
-        self.logger.setLevel(config.debug_level)
+        self.logger.setLevel(int(self.conf["defaults"]["debug_level"]))
         self.logger.debug("powerwall.py started")
 
         self.data = {}
@@ -148,10 +150,10 @@ class Powerwall(Process):
             date = time.strftime("%Y_%m_%d", time.localtime())
             self.load_csv()
 
-            raw_data = requests.get("https://" + config.ip_powerwall + "/api/meters/aggregates", verify=False)
+            raw_data = requests.get("https://" + self.conf["powerwall"]["ip_powerwall"] + "/api/meters/aggregates", verify=False)
             data1 = json.loads(raw_data.text)
 
-            raw_data = requests.get("https://" + config.ip_powerwall + "/api/system_status/soe", verify=False)
+            raw_data = requests.get("https://" + self.conf["powerwall"]["ip_powerwall"] + "/api/system_status/soe", verify=False)
             data2 = json.loads(raw_data.text)
 
             input_data = [[t, float(data1['solar']['instant_power']),
@@ -191,4 +193,5 @@ class Powerwall(Process):
 
     @staticmethod
     def get_current_value():
-        return open(config.data_folder + "powerwall/power.png", 'rb')
+        conf = config.load_config()
+        return open(conf["paths"]["data_folder"] + "powerwall/power.png", 'rb')

@@ -4,7 +4,8 @@ import os
 
 import config
 
-folder = config.data_folder + "powerwall/"
+conf = config.load_config()
+folder = conf["paths"]["data_folder"] + "powerwall/"
 
 
 def get_month_value(date: str, cv: pandas.DataFrame, index=[0]):

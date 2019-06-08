@@ -1,7 +1,7 @@
 # Installation requirements
 - python3
-- apt packages: ``sudo apt install libatlas-base-devpython3-scipy``
-- pip packages: ```pip3 install telepot wakeonlan matplotlib pandas protobuf```
+- apt packages: ``sudo apt install libatlas-base-dev python3-scipy``
+- pip packages: ```pip3 install telepot wakeonlan matplotlib pandas protobuf configparser```
 - create 'user_pb2.py' file from project root directory ``protoc --python_out=./ users/users.proto``
 
 ### Create config files

@@ -31,8 +31,6 @@ class IotImpl final : public iot::IOT::Service {
 public:
     grpc::Status SetShadeSchedule(grpc::ServerContext *serverContext,
                                   const iot::Schedule *schedule, iot::Status *status) override {
-        controlTimes.push_back(*schedule);
-
         std::cout << "Identifier: " << schedule->id() << std::endl;
 
         if(schedule->time() == -1) {
@@ -43,6 +41,8 @@ public:
                 input.push_back(schedule->positions(i));
             }
             sendControlRequest(schedule->id(), input);
+        } else {
+            controlTimes.push_back(*schedule);
         }
 
         status->set_status(0);

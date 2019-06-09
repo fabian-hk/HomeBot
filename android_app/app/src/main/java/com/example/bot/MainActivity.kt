@@ -1,16 +1,23 @@
 package com.example.bot
 
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
+import android.net.ConnectivityManager
+import android.net.wifi.WifiManager
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
+
+import java.lang.NumberFormatException
+
 import com.example.bot.tools.getNetworkBssid
 import com.example.bot.tools.getSharedPreferenceInt
 import com.example.bot.tools.getSharedPreferenceString
-import java.lang.NumberFormatException
+
 
 
 class MainActivity : AppCompatActivity() {
@@ -25,6 +32,13 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        // register broadcast receiver for airplane mode change
+        val wifiConnectionBroadcast = WifiConnectionBroadcast()
+        val filter = IntentFilter(ConnectivityManager.EXTRA_NETWORK).apply {
+            addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION)
+        }
+        registerReceiver(wifiConnectionBroadcast, filter)
 
         // initialize GUI components
         bssidView = findViewById(R.id.ssid);
@@ -42,9 +56,11 @@ class MainActivity : AppCompatActivity() {
         shade0EditText.setText(getSharedPreferenceInt(applicationContext, getString(R.string.sh0)).toString())
         shade1EditText.setText(getSharedPreferenceInt(applicationContext, getString(R.string.sh1)).toString())
         shade2EditText.setText(getSharedPreferenceInt(applicationContext, getString(R.string.sh2)).toString())
+    }
 
+    override fun onResume() {
+        super.onResume()
         bssidView.text = getNetworkBssid(applicationContext)
-
     }
 
     public fun saveNetwork(view: View) {
@@ -81,7 +97,7 @@ class MainActivity : AppCompatActivity() {
                     putInt(getString(R.string.sh0), sh0)
                     putInt(getString(R.string.sh1), sh1)
                     putInt(getString(R.string.sh2), sh2)
-                    commit()
+                    apply()
                 }
                 Toast.makeText(applicationContext, "Saved config", Toast.LENGTH_SHORT).show()
             } else {

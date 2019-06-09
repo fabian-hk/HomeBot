@@ -11,7 +11,7 @@ def wake_desktop():
 
 
 def is_on():
-    r = os.system("ping -c 1 -W 1 " + conf["network"]["on_pc"])
+    r = os.system("fping -t 10 " + conf["network"]["on_pc"])
     if r == 0:
         return "Desktop is online"
     else:

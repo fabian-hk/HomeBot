@@ -11,4 +11,5 @@
     <string name="sh0">IOT_SHADE_0_VALUES</string>
     <string name="sh1">IOT_SHADE_1_VALUES</string>
     <string name="sh2">IOT_SHADE_2_VALUES</string>
+    <string name="time">WINDOW_SHADE_TIME</string>
 </resources>

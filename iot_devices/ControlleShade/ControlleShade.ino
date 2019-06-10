@@ -4,7 +4,7 @@
 byte output[4] = {16, 17, 18, 19};
 
 // window shade 0, shade 1, shade 2, led
-byte state[4] = {0, 0, 0, 0};
+byte state[4] = {100, 100, 100, 0};
 
 // time to move the shade from up to down
 const float TIME = 20000.0;
@@ -116,8 +116,8 @@ void loop() {
    
     // control through LDR
     val = analogRead(ldrPin);    
-    if(val < 800 && state[0] == 0 && state[1] == 0 && state[2] == 0) {
-      controlle(80, 100, 100);
+    if(val < 800 && state[0] == 0 && state[1] == 20 && state[2] == 0) {
+      controlle(90, 100, 100);
       Serial.println("Finished");
     }
 }

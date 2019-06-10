@@ -19,17 +19,20 @@ class WifiConnectionBroadcast : BroadcastReceiver() {
         if (checkNetwork(context) && wifiState.isConnected && currentTime.time > time) {
             var pos = ArrayList<Int>()
             pos.add(0)
+            pos.add(20)
             pos.add(0)
-            pos.add(0)
+
             println("Open window shade")
-            sendWindowShadeRequest(
+
+            var status = sendWindowShadeRequest(
                 context,
                 getSharedPreferenceString(context, context.getString(R.string.sh_id))!!,
                 -1,
                 pos
             )
-
-            setSharedPreferenceLong(context, R.string.time, Long.MAX_VALUE)
+            if(status) {
+                setSharedPreferenceLong(context, R.string.time, Long.MAX_VALUE)
+            }
         }
     }
 }

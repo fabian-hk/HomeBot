@@ -51,10 +51,10 @@ fun setSharedPreferenceLong(context: Context, key: Int, value: Long) {
     }
 }
 
-fun sendWindowShadeRequest(context: Context, id: String, time: Long, pos: ArrayList<Int>) {
+fun sendWindowShadeRequest(context: Context, id: String, time: Long, pos: ArrayList<Int>) : Boolean {
+    var ip = getSharedPreferenceString(context, context.getString(R.string.iot_ip))
+    var mChannel = ManagedChannelBuilder.forAddress(ip, 1616).usePlaintext().build()
     try {
-        var ip = getSharedPreferenceString(context, context.getString(R.string.iot_ip))
-        var mChannel = ManagedChannelBuilder.forAddress(ip, 1616).usePlaintext().build()
         var blockingStub = IOTGrpc.newBlockingStub(mChannel)
 
         var sched = Schedule.newBuilder()
@@ -66,10 +66,13 @@ fun sendWindowShadeRequest(context: Context, id: String, time: Long, pos: ArrayL
         var status = blockingStub.setShadeSchedule(sched)
         Toast.makeText(context, "Status: " + status.status, Toast.LENGTH_SHORT).show()
         println("Status: " + status.status)
-        mChannel.shutdownNow()
+        return true
     } catch (e: Exception) {
         e.printStackTrace()
         Toast.makeText(context, "Status: 1", Toast.LENGTH_SHORT).show()
+        return false
+    } finally {
+        mChannel.shutdownNow()
     }
 }
 

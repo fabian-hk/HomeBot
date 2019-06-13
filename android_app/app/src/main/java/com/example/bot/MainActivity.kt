@@ -3,6 +3,7 @@ package com.example.bot
 import android.app.AlarmManager
 import android.app.job.JobInfo
 import android.app.job.JobScheduler
+import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -23,31 +24,31 @@ import com.example.bot.tools.getSharedPreferenceInt
 import com.example.bot.tools.getSharedPreferenceString
 
 
-
 class MainActivity : AppCompatActivity() {
 
-    lateinit var bssidView: TextView
-    lateinit var ipEditText: EditText
-    lateinit var shadeIdEditText: EditText
-    lateinit var shade0EditText: EditText
-    lateinit var shade1EditText: EditText
-    lateinit var shade2EditText: EditText
+    private lateinit var bssidView: TextView
+    private lateinit var ipEditText: EditText
+    private lateinit var shadeIdEditText: EditText
+    private lateinit var shade0EditText: EditText
+    private lateinit var shade1EditText: EditText
+    private lateinit var shade2EditText: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        println("Start job")
-        val serviceComponent = ComponentName(this, BackgroundService::class.java)
-        val builder = JobInfo.Builder(0, serviceComponent)
-        builder.setMinimumLatency((1 * 1000).toLong()) // wait at least
-        builder.setOverrideDeadline((3 * 1000).toLong()) // maximum delay
-        //builder.setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED); // require unmetered network
-        //builder.setRequiresDeviceIdle(true); // device should be idle
-        //builder.setRequiresCharging(false); // we don't care if the device is charging or not
-        val jobScheduler = getSystemService(JobScheduler::class.java)
-        jobScheduler.schedule(builder.build())
+        // register broadcast receiver
+        val wifiConnectionBroadcast = WifiConnectionBroadcast()
+        val filterWifiConnectionBroadcast = IntentFilter(ConnectivityManager.EXTRA_NETWORK).apply {
+            addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION)
+        }
+        registerReceiver(wifiConnectionBroadcast, filterWifiConnectionBroadcast)
 
+        val alarmBroadcast = AlarmBroadcast()
+        val filterAlarmBroadcast = IntentFilter(AlarmManager.ACTION_NEXT_ALARM_CLOCK_CHANGED).apply {
+            addAction(AlarmManager.ACTION_NEXT_ALARM_CLOCK_CHANGED)
+        }
+        registerReceiver(alarmBroadcast, filterAlarmBroadcast)
 
         // initialize GUI components
         bssidView = findViewById(R.id.ssid);
@@ -72,6 +73,9 @@ class MainActivity : AppCompatActivity() {
         bssidView.text = getNetworkBssid(applicationContext)
     }
 
+    /**
+     * Save configuration to shared preference
+     */
     public fun saveNetwork(view: View) {
         var error = false
 
@@ -79,7 +83,7 @@ class MainActivity : AppCompatActivity() {
         var strSh1 = shade1EditText.text.toString()
         var strSh2 = shade2EditText.text.toString()
 
-        if(strSh0.equals("") || strSh1.equals("") || strSh2.equals("")) {
+        if (strSh0.equals("") || strSh1.equals("") || strSh2.equals("")) {
             error = true
         }
 

@@ -22,18 +22,7 @@ class BackgroundService : JobService() {
     override fun onStartJob(params: JobParameters?): Boolean {
         println("Service started")
 
-        // register broadcast receiver
-        val wifiConnectionBroadcast = WifiConnectionBroadcast()
-        val filterWifiConnectionBroadcast = IntentFilter(ConnectivityManager.EXTRA_NETWORK).apply {
-            addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION)
-        }
-        registerReceiver(wifiConnectionBroadcast, filterWifiConnectionBroadcast)
 
-        val alarmBroadcast = AlarmBroadcast()
-        val filterAlarmBroadcast = IntentFilter(AlarmManager.ACTION_NEXT_ALARM_CLOCK_CHANGED).apply {
-            addAction(AlarmManager.ACTION_NEXT_ALARM_CLOCK_CHANGED)
-        }
-        registerReceiver(alarmBroadcast, filterAlarmBroadcast)
 
         return true
     }

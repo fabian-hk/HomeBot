@@ -40,7 +40,7 @@ public:
                 std::cout << "Shade " << i << " position: " << schedule->positions(i) << std::endl;
                 input.push_back(schedule->positions(i));
             }
-            sendControlRequest(schedule->id(), input);
+            //sendControlRequest(schedule->id(), input);
         } else {
             controlTimes.push_back(*schedule);
         }
@@ -52,7 +52,7 @@ public:
 };
 
 void startService() {
-    std::string server_address("0.0.0.0:1616");
+    std::string server_address = "0.0.0.0:1616";
     IotImpl service;
 
     grpc::ServerBuilder builder;
@@ -82,7 +82,7 @@ void startService() {
                     std::cout << "Shade " << i << " position: " << schedule.positions(i) << std::endl;
                     input.push_back(schedule.positions(i));
                 }
-                sendControlRequest(schedule.id(), input);
+                //sendControlRequest(schedule.id(), input);
                 controlTimes.erase(iter++);
             } else {
                 iter++;

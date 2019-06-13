@@ -1,5 +1,9 @@
 package com.example.bot
 
+import android.app.AlarmManager
+import android.app.job.JobInfo
+import android.app.job.JobScheduler
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
@@ -33,12 +37,17 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // register broadcast receiver for airplane mode change
-        val wifiConnectionBroadcast = WifiConnectionBroadcast()
-        val filter = IntentFilter(ConnectivityManager.EXTRA_NETWORK).apply {
-            addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION)
-        }
-        registerReceiver(wifiConnectionBroadcast, filter)
+        println("Start job")
+        val serviceComponent = ComponentName(this, BackgroundService::class.java)
+        val builder = JobInfo.Builder(0, serviceComponent)
+        builder.setMinimumLatency((1 * 1000).toLong()) // wait at least
+        builder.setOverrideDeadline((3 * 1000).toLong()) // maximum delay
+        //builder.setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED); // require unmetered network
+        //builder.setRequiresDeviceIdle(true); // device should be idle
+        //builder.setRequiresCharging(false); // we don't care if the device is charging or not
+        val jobScheduler = getSystemService(JobScheduler::class.java)
+        jobScheduler.schedule(builder.build())
+
 
         // initialize GUI components
         bssidView = findViewById(R.id.ssid);

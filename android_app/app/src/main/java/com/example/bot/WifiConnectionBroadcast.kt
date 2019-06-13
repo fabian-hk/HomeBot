@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.net.NetworkInfo
+import android.widget.Toast
 import com.example.bot.tools.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -21,8 +22,6 @@ class WifiConnectionBroadcast : BroadcastReceiver() {
             pos.add(0)
             pos.add(20)
             pos.add(0)
-
-            println("Open window shade")
 
             var status = sendWindowShadeRequest(
                 context,

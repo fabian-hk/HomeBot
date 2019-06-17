@@ -11,15 +11,16 @@ set(ENV{BOOST_ROOT} "/usr/include/boost")
 
 find_package(Boost 1.62 EXACT REQUIRED COMPONENTS python)
 find_library(CURL libcurl.so HINTS /usr/lib/arm-linux-gnueabihf)
+find_library(PROTOBUF libprotobuf.so HINTS /usr/local/lib)
 
 include_directories(${Boost_INCLUDE_DIRS} /usr/include/python3.5m)
 
 add_executable(main ../../src/Main.cpp ../../src/proto/users.pb.cc ../../src/Base64.h ../../src/Scraper.cpp ../../src/Scraper.h)
 target_link_libraries(main ${CURL})
-target_link_libraries(main protobuf)
+target_link_libraries(main ${PROTOBUF})
 
 add_library(webscraper SHARED ../../src/webScraper.cpp ../../src/proto/users.pb.cc ../../src/Base64.h ../../src/Scraper.cpp ../../src/Scraper.h)
 target_link_libraries(webscraper boost_python-py35)
 target_link_libraries(webscraper ${CURL})
-target_link_libraries(webscraper protobuf)
+target_link_libraries(webscraper ${PROTOBUF})
 

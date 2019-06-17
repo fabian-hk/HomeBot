@@ -23,7 +23,7 @@
 
 #define PORT 8448
 
-std::list<iot::Schedule> controlTimes;
+iot::Schedule controlledSchedule;
 
 bool sendControlRequest(std::string id, std::vector<char> values);
 
@@ -40,12 +40,14 @@ public:
                 std::cout << "Shade " << i << " position: " << schedule->positions(i) << std::endl;
                 input.push_back(schedule->positions(i));
             }
-            //sendControlRequest(schedule->id(), input);
+            if(sendControlRequest(schedule->id(), input))
+                status->set_status(0);
+            else
+                status->set_status(1);
         } else {
-            controlTimes.push_back(*schedule);
+            controlledSchedule = *schedule;
+            status->set_status(0);
         }
-
-        status->set_status(0);
 
         return grpc::Status::OK;
     }
@@ -61,35 +63,24 @@ void startService() {
     std::unique_ptr<grpc::Server> server(builder.BuildAndStart());
     std::cout << "Server listening on " << server_address << std::endl;
 
-    // local variable definition
-    iot::Schedule schedule;
-
     while (true) {
-        std::this_thread::sleep_for(std::chrono::seconds(20));
+        std::this_thread::sleep_for(std::chrono::seconds(2));
 
         std::chrono::milliseconds ms = std::chrono::duration_cast<std::chrono::milliseconds>(
                 std::chrono::system_clock::now().time_since_epoch());
 
-        auto iter = controlTimes.begin();
-        while (iter != controlTimes.end()) {
-            schedule = *iter;
-            if (schedule.time() < ms.count()) {
-                std::cout << "Move shade. Time: " << schedule.time() << std::endl;
+        if (controlledSchedule.time() != 0 && controlledSchedule.time() < ms.count()) {
+            std::cout << "Move shade. Time: " << controlledSchedule.time() << std::endl;
 
-                std::vector<char> input;
-                input.push_back(0x00);
-                for (size_t i = 0; i < 3; i++) {
-                    std::cout << "Shade " << i << " position: " << schedule.positions(i) << std::endl;
-                    input.push_back(schedule.positions(i));
-                }
-                //sendControlRequest(schedule.id(), input);
-                controlTimes.erase(iter++);
-            } else {
-                iter++;
+            std::vector<char> input;
+            input.push_back(0x00);
+            for (size_t i = 0; i < 3; i++) {
+                std::cout << "Shade " << i << " position: " << controlledSchedule.positions(i) << std::endl;
+                input.push_back(controlledSchedule.positions(i));
             }
-
+            sendControlRequest(controlledSchedule.id(), input);
+            controlledSchedule.set_time(0);
         }
-
     }
 }
 

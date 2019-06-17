@@ -55,7 +55,7 @@ class IotWidget : AppWidgetProvider() {
             val intentDown = Intent(context, ControlShadeBroadcast::class.java)
             intentDown.action = "com.example.bot.ControlShadeBroadcast"
             val listDown = ArrayList<Int>()
-            listDown.add(97)
+            listDown.add(99)
             listDown.add(100)
             listDown.add(100)
             intentDown.putExtra("values", listDown)

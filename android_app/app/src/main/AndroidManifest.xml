@@ -14,6 +14,7 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
+
         <receiver android:name=".IotWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
@@ -32,20 +33,13 @@
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".RestartReceiver"
-                  android:enabled="false"
-                  android:exported="false">
+        <receiver android:name=".AlarmBroadcast"
+                  android:enabled="true"
+                  android:exported="true">
             <intent-filter>
-                <action android:name="com.example.bot.RestartReceiver" />
+                <action android:name="android.app.action.NEXT_ALARM_CLOCK_CHANGED" />
             </intent-filter>
         </receiver>
-
-        <service
-                android:name=".BackgroundService"
-                android:enabled="false"
-                android:exported="false"
-                android:permission="android.permission.BIND_JOB_SERVICE">
-        </service>
 
         <activity android:name=".MainActivity">
             <intent-filter>

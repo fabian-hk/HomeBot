@@ -44,12 +44,6 @@ class MainActivity : AppCompatActivity() {
         }
         registerReceiver(wifiConnectionBroadcast, filterWifiConnectionBroadcast)
 
-        val alarmBroadcast = AlarmBroadcast()
-        val filterAlarmBroadcast = IntentFilter(AlarmManager.ACTION_NEXT_ALARM_CLOCK_CHANGED).apply {
-            addAction(AlarmManager.ACTION_NEXT_ALARM_CLOCK_CHANGED)
-        }
-        registerReceiver(alarmBroadcast, filterAlarmBroadcast)
-
         // initialize GUI components
         bssidView = findViewById(R.id.ssid);
         ipEditText = findViewById(R.id.iot_ip)

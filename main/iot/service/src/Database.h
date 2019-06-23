@@ -20,6 +20,7 @@ private:
 public:
     static Database* getInstance();
     std::unordered_map<std::string, std::vector<std::string>>* getIotData();
+    bool getIotDataByInfo(const char* info, std::vector<std::string> *ret);
     std::unordered_map<std::string, std::string>* getConfig();
     bool saveIotData(std::unordered_map<std::string, std::vector<std::string>>* d);
 

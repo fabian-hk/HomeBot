@@ -1,5 +1,5 @@
 import wakeonlan
-import os
+import subprocess
 
 import config
 
@@ -11,8 +11,10 @@ def wake_desktop():
 
 
 def is_on():
-    r = os.system("fping -t 10 " + conf["network"]["on_pc"])
-    if r == 0:
+    r = subprocess.getoutput(conf["paths"]["root_folder"] + "wol/ping/out/cping "
+                             + conf["network"]["on_pc"]
+                             + " 10")
+    if r == "1":
         return "Desktop is online"
     else:
         return "Desktop is offline"

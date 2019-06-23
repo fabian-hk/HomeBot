@@ -92,9 +92,11 @@ def handle(msg):
                 try:
                     help = "fuel: shows fuel prices for your location\nfuel stat: shows graphs from the fuel prices " \
                            "from the main location\nfuel limit 1.5: changes your price limit to 1.50€ for price alerts " \
-                           "on your location"
+                           "on your location" \
+                            "location: send your location via Telegram to get fuel prices at your location"
                     if user.privs <= 1:
-                        help += "\npower: shows graphs from energy consumption"
+                        help += "\npower: shows graphs from energy consumption" \
+                                "\niot: control registered iot devices"
                     if user.privs == 0:
                         help += "\nwol: starts desktop at home\non: tests whether your desktop is running or not" \
                                 "\ntemp: measures cpu temperature from pi"

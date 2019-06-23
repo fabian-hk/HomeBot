@@ -19,6 +19,8 @@
 #include "grpc_proto/iot.grpc.pb.h"
 #include "grpc_proto/iot.pb.h"
 
+#include "tools/Ping.h"
+
 #include "Database.h"
 
 #define PORT 8448
@@ -54,9 +56,20 @@ public:
 };
 
 void startService() {
+    // define variables
     std::string server_address = "0.0.0.0:1616";
     IotImpl service;
+    bool open = false;
 
+    // load database for iot devices
+    auto db = Database::getInstance();
+    std::unordered_map<std::string, std::vector<std::string>> *iotConfig;
+    iotConfig = db->getIotData();
+
+    // initialize variables
+    controlledSchedule.set_time(google::protobuf::kint64max);
+
+    // start gRPC server
     grpc::ServerBuilder builder;
     builder.AddListeningPort(server_address, grpc::InsecureServerCredentials());
     builder.RegisterService(&service);
@@ -69,7 +82,8 @@ void startService() {
         std::chrono::milliseconds ms = std::chrono::duration_cast<std::chrono::milliseconds>(
                 std::chrono::system_clock::now().time_since_epoch());
 
-        if (controlledSchedule.time() != 0 && controlledSchedule.time() < ms.count()) {
+        if (controlledSchedule.time() != google::protobuf::kint64max
+                && controlledSchedule.time() < ms.count()) {
             std::cout << "Move shade. Time: " << controlledSchedule.time() << std::endl;
 
             std::vector<char> input;
@@ -79,7 +93,17 @@ void startService() {
                 input.push_back(controlledSchedule.positions(i));
             }
             sendControlRequest(controlledSchedule.id(), input);
-            controlledSchedule.set_time(0);
+            controlledSchedule.set_time(google::protobuf::kint64max);
+            open = true;
+        }
+
+        if(open && sendPing((*iotConfig)["phone"][0].c_str(), 500)) {
+            printf("open shade\n");
+            std::vector<std::string> data;
+            db->getIotDataByInfo("sleep", &data);
+            std::vector<char> state = {0x00, 0x00, 0x14, 0x00};
+            sendControlRequest(data[0], state);
+            open = false;
         }
     }
 }

@@ -37,13 +37,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // register broadcast receiver
-        val wifiConnectionBroadcast = WifiConnectionBroadcast()
-        val filterWifiConnectionBroadcast = IntentFilter(ConnectivityManager.EXTRA_NETWORK).apply {
-            addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION)
-        }
-        registerReceiver(wifiConnectionBroadcast, filterWifiConnectionBroadcast)
-
         // initialize GUI components
         bssidView = findViewById(R.id.ssid);
         ipEditText = findViewById(R.id.iot_ip)

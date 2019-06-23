@@ -21,6 +21,19 @@ std::unordered_map<std::string, std::vector<std::string>>* Database::getIotData(
     return &data;
 }
 
+bool Database::getIotDataByInfo(const char* info, std::vector<std::string> *ret) {
+    getIotData();
+
+    for(auto& it : data) {
+        if (data[it.first][2] == info) {
+            (*ret) = data[it.first];
+            ret->insert(ret->begin(), it.first);
+            return true;
+        }
+    }
+    return false;
+}
+
 void Database::setConfigFilePath(std::string path) {
     configFilePath = path;
 }

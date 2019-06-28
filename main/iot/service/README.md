@@ -1,5 +1,4 @@
 # Dependencies
-
 - Google gRPC => compile with ``make`` and install it on your system so that it can be found.
 
 # Build

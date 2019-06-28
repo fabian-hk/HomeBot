@@ -127,6 +127,12 @@ bool sendControlRequest(const std::string id, std::vector<char> values) {
     serv_addr.sin_family = AF_INET;
     serv_addr.sin_port = htons(PORT);
 
+    // check if id exists
+    std::unordered_map<std::string, std::vector<std::string>>::const_iterator el = (*iotConfig).find(id);
+    if (el == (*iotConfig).end()) {
+        return false;
+    }
+
     std::string addr = (*iotConfig)[id][0];
     if (inet_pton(AF_INET, addr.c_str(), &serv_addr.sin_addr) <= 0) {
         printf("\nInvalid address/ Address not supported \n");
@@ -197,6 +203,12 @@ std::string getStatus(const std::string id, std::string configPath) {
 
     serv_addr.sin_family = AF_INET;
     serv_addr.sin_port = htons(PORT);
+
+    // check if id exists
+    std::unordered_map<std::string, std::vector<std::string>>::const_iterator el = (*iotConfig).find(id);
+    if (el == (*iotConfig).end()) {
+        return "Invalid devices selected";
+    }
 
     std::string addr = (*iotConfig)[id][0];
     if (inet_pton(AF_INET, addr.c_str(), &serv_addr.sin_addr) <= 0) {

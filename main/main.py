@@ -93,7 +93,7 @@ def handle(msg):
                     help = "fuel: shows fuel prices for your location\nfuel stat: shows graphs from the fuel prices " \
                            "from the main location\nfuel limit 1.5: changes your price limit to 1.50€ for price alerts " \
                            "on your location" \
-                            "location: send your location via Telegram to get fuel prices at your location"
+                            "\nlocation: send your location via Telegram to get fuel prices at your location"
                     if user.privs <= 1:
                         help += "\npower: shows graphs from energy consumption" \
                                 "\niot: control registered iot devices"

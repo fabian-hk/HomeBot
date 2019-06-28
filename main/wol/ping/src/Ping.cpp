@@ -55,11 +55,10 @@ bool sendPing(const char *addr, int timeout) {
 
     int sockfd = socket(AF_INET, SOCK_RAW, IPPROTO_ICMP);
 
-    // set socket options at ip to TTL and value to 64,
-    // change to what you want by setting ttl_val
+    // set socket options at ip to TTL and value to 64
     if (setsockopt(sockfd, SOL_IP, IP_TTL,
                    &ttl_val, sizeof(ttl_val)) != 0) {
-        printf("\nSetting socket options to TTL failed!\n");
+        printf("Setting socket options to TTL failed!\n");
         return false;
     }
 
@@ -98,9 +97,11 @@ bool sendPing(const char *addr, int timeout) {
     //receive packet
     addr_len = sizeof(r_addr);
     if (recvfrom(sockfd, &pckt, sizeof(pckt), 0, (struct sockaddr *) &r_addr, (socklen_t *) &addr_len) <= 0) {
-        // if no package was received the host isn't up
+        close(sockfd);
+	    // if no package was received the host isn't up
         return false;
     } else {
+	    close(sockfd);
         if (pckt.hdr.type == 69 && pckt.hdr.code == 0) {
             // ping was successful
             return true;

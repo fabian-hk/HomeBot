@@ -10,22 +10,23 @@ graphic you can see how the devices interact with each other.
 
 <img src="./doc/BotSchema.png">
 
-This project is written in Python, C++, Kotlin, PHP and HTML.
+This project is written in Python, C++, Kotlin, PHP and HTML and uses
+libraries like Google Protobuf, gRPC, Scipy, Telepot, Matplotlib and Pandas.
 I am writing it besides my studies in my free time and the system
 is running on a Raspberry Pi 3 Model B since the beginning of 2019 without failing.
 
 ## Overview
 
-- **Android app** (folder: [android_app](android_app)): The app listens to the Android Broadcast 
+- **Android app** (folder: [android_app](android_app)): The app listens for the Android Broadcast 
 "NEXT_ALARM_CLOCK_CHANGED" which is send if a new alarm is set. 
 The app than tells the RPI over gRPC when the alarm will go off. 
 The RPI will then open the window shade a little 15 minutes before
 the alarm goes off. After the alarm when the smartphones locks into 
 the wifi network the RPI opens the window shade completely. 
 Additional the app provides a Android Widget to move the window 
-shades completely up or down.
+shades completely up or down manually.
 
-- **IOT devices** (folder: [iot_devices](iot_devices/ControlShade)): This folder contains the Arduino
+- **IOT devices** (folder: [iot_devices](iot_devices/ControlShade/ControlShade.ino)): This folder contains the Arduino
 program for the NodeMCU ESP32 microcontroller to control the buttons 
 of the window shade remote via transistors. The RPI can
 either ask the microcontroller in which state it is or set a new
@@ -41,4 +42,6 @@ and draws diagrams of it.
 
 - **Webinterface** (folder: [website](website)): Currently the website only
 shows the power values from the Powerwall for every day and every
-month as well as the graphs for the current day.
+month as well as the graphs for the current day. Further more
+you can download csv files with the values from every day and
+every month.

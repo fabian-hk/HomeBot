@@ -48,8 +48,8 @@ every month.
 
 <table style="border-collapse: collapse">
     <tr>
-        <td><img src="./doc/WindowShadeControl.jpg" height="2340" width="1413"></td>
-        <td><img src="./doc/TelegramScreenshot.jpg" height="2340" width="1080"></td>
+        <td><img src="./doc/WindowShadeControl.jpg" style="height:2340px; width:1413px"></td>
+        <td><img src="./doc/TelegramScreenshot.jpg" style="height:2340px; width:1080px"></td>
     </tr>
     <tr>
         <td>Window shade control unit</td>

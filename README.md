@@ -32,7 +32,7 @@ of the window shade remote via transistors. The RPI can
 either ask the microcontroller in which state it is or set a new
 state via messages send over TCP. Further more the microcontroller
 has an light detector on its analog input to move the windows
-shades down if it gets dark outside. [Picture]
+shades down if it gets dark outside.
 
 - **Main program** (folder: [main](main)): This is the main program which
 runs on the Raspberry Pi and communicates with all the devices like
@@ -45,3 +45,14 @@ shows the power values from the Powerwall for every day and every
 month as well as the graphs for the current day. Further more
 you can download csv files with the values from every day and
 every month.
+
+<table style="border-collapse: collapse">
+    <tr>
+        <td><img src="./doc/WindowShadeControl.jpg"></td>
+        <td><img src="./doc/TelegramScreenshot.jpg"></td>
+    </tr>
+    <tr>
+        <td>Window shade control unit</td>
+        <td>Telegram bot</td>
+    </tr>
+</table>

@@ -47,3 +47,15 @@ every month.
 
 ## Pictures
 ![Bot pictures](doc/BotPictures.jpg)
+
+# Acknowledgement
+
+I want to thank my brother Benjamin Hauck who figured out how to control the buttons
+of the window shades remote via transistors and who helped me to assemble the
+window shades control unit.
+
+# License
+
+The source code of this project is licensed under the GNU GPLv3 except for
+the [Base64.h](main/fuelprice/webscraper/src/Base64.h) file (Copyright (c) 2016 tomykaira) which is
+licensed under the MIT license. For further information see the [LICENSE](LICENSE) file.

@@ -6,8 +6,8 @@ root_folder=<path to the root folder of this project>
 ip_powerwall=192.168.2.50
 
 [defaults]
-default_latitude=30.0 // default location for new created users
-default_longitude=20.0 // default location for new created users
+default_latitude=30.0
+default_longitude=20.0
 # debug level WARNING
 debug_level=30
 

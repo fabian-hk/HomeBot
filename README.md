@@ -45,7 +45,7 @@ month as well as the graphs for the current day. Furthermore
 you can download csv files with the values from every day and
 every month.
 
-## Pictures
+# Pictures
 ![Bot pictures](doc/BotPictures.jpg)
 
 # Acknowledgement

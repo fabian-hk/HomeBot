@@ -11,6 +11,8 @@ import config
 from powerwall import integral
 import powerwall.calc_month_values as cmv
 
+SAMPLING_RATE = 4
+
 
 class Powerwall(Process):
 
@@ -150,10 +152,12 @@ class Powerwall(Process):
             date = time.strftime("%Y_%m_%d", time.localtime())
             self.load_csv()
 
-            raw_data = requests.get("https://" + self.conf["powerwall"]["ip_powerwall"] + "/api/meters/aggregates", verify=False)
+            raw_data = requests.get("https://" + self.conf["powerwall"]["ip_powerwall"] + "/api/meters/aggregates",
+                                    verify=False)
             data1 = json.loads(raw_data.text)
 
-            raw_data = requests.get("https://" + self.conf["powerwall"]["ip_powerwall"] + "/api/system_status/soe", verify=False)
+            raw_data = requests.get("https://" + self.conf["powerwall"]["ip_powerwall"] + "/api/system_status/soe",
+                                    verify=False)
             data2 = json.loads(raw_data.text)
 
             input_data = [[t, float(data1['solar']['instant_power']),
@@ -189,7 +193,7 @@ class Powerwall(Process):
 
             except Exception as e:
                 self.logger.error(e)
-            time.sleep(4)
+            time.sleep(SAMPLING_RATE)
 
     @staticmethod
     def get_current_value():

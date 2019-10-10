@@ -1,3 +1,4 @@
 # Dependencies
 
-- Install with ``sudo apt install apache2 php`` 
+- Install apache2 and php with 
+``sudo apt install apache2 php`` 

@@ -1,7 +1,7 @@
 #include <boost/python.hpp>
 
 #include "Service.h"
-#include "tools/Ping.h"
+#include "../../utils/Ping.h"
 
 BOOST_PYTHON_MODULE(libiotservice) {
     // Add regular functions to the module.

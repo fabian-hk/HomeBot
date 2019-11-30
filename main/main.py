@@ -113,8 +113,7 @@ def handle(msg):
 
 def start(bot=None):
     if bot is None:
-        token = open(conf["paths"]["root_folder"] + "secret", "r")
-        bot = telepot.Bot(token.readline())
+        bot = telepot.Bot(conf["telegram"]["access_token"])
     bot.sendMessage(admin_ids[0], "Bot is running")
     logger.debug("Initialized bot")
     try:
@@ -126,8 +125,7 @@ def start(bot=None):
 
 
 if __name__ == "__main__":
-    token = open(conf["paths"]["root_folder"] + "secret", "r")
-    bot = telepot.Bot(token.readline())
+    bot = telepot.Bot(conf["telegram"]["access_token"])
 
     pw = Powerwall()
     pw.start()

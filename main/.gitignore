@@ -4,6 +4,7 @@
 powerwall/__pycache__/
 fuelPrice/__pycache__/
 wol/__pycache__/
+build/
 
 # files
 bot.conf

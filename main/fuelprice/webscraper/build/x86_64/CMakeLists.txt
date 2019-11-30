@@ -13,11 +13,11 @@ find_package(Boost 1.67 EXACT REQUIRED COMPONENTS python)
 
 include_directories("${Boost_INCLUDE_DIRS}" "/usr/include/python3.7")
 
-add_executable(main ../../src/Main.cpp ../../src/proto/users.pb.cc ../../src/Base64.h ../../src/Scraper.cpp ../../src/Scraper.h)
+add_executable(main ../../../src/Main.cpp ../../../src/Base64.h ../../../src/Scraper.cpp ../../../src/Scraper.h)
 target_link_libraries(main curl)
 target_link_libraries(main protobuf)
 
-add_library(webscraper SHARED ../../src/webScraper.cpp ../../src/proto/users.pb.cc ../../src/Base64.h ../../src/Scraper.cpp ../../src/Scraper.h)
+add_library(webscraper SHARED ../../../src/webScraper.cpp ../../../src/Base64.h ../../../src/Scraper.cpp ../../../src/Scraper.h)
 target_link_libraries(webscraper boost_python37)
 target_link_libraries(webscraper curl)
 target_link_libraries(webscraper protobuf)

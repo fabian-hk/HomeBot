@@ -1,14 +1,14 @@
 import subprocess
 
 import config
-from iot.service.out import libiotservice
+from build import libiotservice
 
 
 class IOT:
 
     def __init__(self):
         parser = config.load_config()
-        subprocess.Popen([parser["paths"]["root_folder"] + "iot/service/out/IotService",
+        subprocess.Popen([parser["paths"]["root_folder"] + "build/IotService",
                           parser["paths"]["root_folder"] + "bot.conf"])
 
     @staticmethod

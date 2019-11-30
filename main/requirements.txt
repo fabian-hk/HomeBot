@@ -1,0 +1,6 @@
+telepot
+pandas
+matplotlib
+wakeonlan
+scipy
+protobuf

@@ -19,7 +19,7 @@
 #include "grpc_proto/iot.grpc.pb.h"
 #include "grpc_proto/iot.pb.h"
 
-#include "tools/Ping.h"
+#include "../../utils/Ping.h"
 
 #include "Database.h"
 

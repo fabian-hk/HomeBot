@@ -11,7 +11,7 @@
 #include <grpcpp/impl/codegen/channel_interface.h>
 #include <grpcpp/impl/codegen/client_unary_call.h>
 #include <grpcpp/impl/codegen/client_callback.h>
-#include <grpcpp/impl/codegen/method_handler_impl.h>
+#include <grpcpp/impl/codegen/method_handler.h>
 #include <grpcpp/impl/codegen/rpc_service_method.h>
 #include <grpcpp/impl/codegen/server_callback.h>
 #include <grpcpp/impl/codegen/service_type.h>
@@ -37,19 +37,27 @@ IOT::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel)
 }
 
 void IOT::Stub::experimental_async::SetShadeSchedule(::grpc::ClientContext* context, const ::iot::Schedule* request, ::iot::Status* response, std::function<void(::grpc::Status)> f) {
-  return ::grpc::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_SetShadeSchedule_, context, request, response, std::move(f));
+  ::grpc_impl::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_SetShadeSchedule_, context, request, response, std::move(f));
 }
 
 void IOT::Stub::experimental_async::SetShadeSchedule(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::iot::Status* response, std::function<void(::grpc::Status)> f) {
-  return ::grpc::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_SetShadeSchedule_, context, request, response, std::move(f));
+  ::grpc_impl::internal::CallbackUnaryCall(stub_->channel_.get(), stub_->rpcmethod_SetShadeSchedule_, context, request, response, std::move(f));
+}
+
+void IOT::Stub::experimental_async::SetShadeSchedule(::grpc::ClientContext* context, const ::iot::Schedule* request, ::iot::Status* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc_impl::internal::ClientCallbackUnaryFactory::Create(stub_->channel_.get(), stub_->rpcmethod_SetShadeSchedule_, context, request, response, reactor);
+}
+
+void IOT::Stub::experimental_async::SetShadeSchedule(::grpc::ClientContext* context, const ::grpc::ByteBuffer* request, ::iot::Status* response, ::grpc::experimental::ClientUnaryReactor* reactor) {
+  ::grpc_impl::internal::ClientCallbackUnaryFactory::Create(stub_->channel_.get(), stub_->rpcmethod_SetShadeSchedule_, context, request, response, reactor);
 }
 
 ::grpc::ClientAsyncResponseReader< ::iot::Status>* IOT::Stub::AsyncSetShadeScheduleRaw(::grpc::ClientContext* context, const ::iot::Schedule& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::iot::Status>::Create(channel_.get(), cq, rpcmethod_SetShadeSchedule_, context, request, true);
+  return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::iot::Status>::Create(channel_.get(), cq, rpcmethod_SetShadeSchedule_, context, request, true);
 }
 
 ::grpc::ClientAsyncResponseReader< ::iot::Status>* IOT::Stub::PrepareAsyncSetShadeScheduleRaw(::grpc::ClientContext* context, const ::iot::Schedule& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderFactory< ::iot::Status>::Create(channel_.get(), cq, rpcmethod_SetShadeSchedule_, context, request, false);
+  return ::grpc_impl::internal::ClientAsyncResponseReaderFactory< ::iot::Status>::Create(channel_.get(), cq, rpcmethod_SetShadeSchedule_, context, request, false);
 }
 
 IOT::Service::Service() {

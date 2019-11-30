@@ -9,7 +9,7 @@ import logging
 
 import config
 from users import users as user_management
-from fuelprice.webscraper.out import libwebscraper
+from build import libwebscraper
 
 
 class FuelPrice(Process):

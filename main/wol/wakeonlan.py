@@ -11,7 +11,7 @@ def wake_desktop():
 
 
 def is_on():
-    r = subprocess.getoutput(conf["paths"]["root_folder"] + "wol/ping/out/cping "
+    r = subprocess.getoutput(conf["paths"]["root_folder"] + "build/cping "
                              + conf["network"]["on_pc"]
                              + " 10")
     if r == "1":

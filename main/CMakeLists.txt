@@ -3,7 +3,7 @@ project(bot)
 
 set(CMAKE_CXX_STANDARD 17)
 
-set(CMAKE_BUILD_TYPE Debug)
+set(CMAKE_BUILD_TYPE Release)
 # set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=x86-64")
 
@@ -42,7 +42,7 @@ set(PING_SRC ${CMAKE_SOURCE_DIR}/wol/src)
 
 add_executable(cping ${PING_SRC}/Main.cpp ${UTILS}/Ping.cpp ${UTILS}/Ping.h)
 
-add_custom_command(TARGET cping POST_BUILD COMMAND sudo setcap CAP_NET_RAW=ep ./cping)
+add_custom_command(TARGET cping POST_BUILD COMMAND setcap CAP_NET_RAW=ep ${CMAKE_SOURCE_DIR}/build/cping)
 
 
 ###############################################################################################################

@@ -1,6 +1,6 @@
 [paths]
-data_folder=<path to the folder where you want to save your data>
-root_folder=<path to the root folder of this project>
+data_folder=<path to the folder where you want to save your data>/
+root_folder=<path to the root folder of this project>/
 
 [powerwall]
 ip_powerwall=192.168.2.50
@@ -14,3 +14,6 @@ debug_level=30
 [network]
 wol_pc=FF:BB:00:11:22:33
 on_pc=192.168.2.55
+
+[iot]
+enabled=false

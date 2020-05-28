@@ -25,3 +25,16 @@ Create the following files in the root directory of the project:
 1. Create a text file with the name ``secret`` which only holds ONE line with the access token for the bot.
 2. Create a ``bot.conf`` file which looks like the [bot.conf.example](bot.conf.example) file.
 
+# Usage with Docker
+For easy setup, you can just pull the Docker image with the
+following command:
+
+```
+docker pull
+```
+
+You have to mount a data folder and the configuration file
+with these options:
+
+1. `-v "$PWD/data:/mnt/data"``
+2. ``-v "$PWD/bot.conf:/workdir/bot/bot.conf"``

@@ -4,3 +4,5 @@ matplotlib
 wakeonlan
 scipy
 protobuf
+requests
+configparser

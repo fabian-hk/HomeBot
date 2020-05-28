@@ -39,7 +39,7 @@ the microcontroller for the window shades, the Tesla Powerwall,
 the Android app and Telegram. It also saves the collected data
 and draws graphs of it.
 
-- **Webinterface** (folder: [website](website)): Currently the website only
+- **Webinterface** (folder: [website](main/website)): Currently the website only
 shows the power values from the Powerwall for every day and every
 month as well as the graphs for the current day. Furthermore
 you can download csv files with the values from every day and

@@ -30,11 +30,20 @@ For easy setup, you can just pull the Docker image with the
 following command:
 
 ```
-docker pull
+docker pull fabianhk/homebot
 ```
 
 You have to mount a data folder and the configuration file
 with these options:
 
-1. `-v "$PWD/data:/mnt/data"``
+1. ``-v "$PWD/data:/mnt/data"``
 2. ``-v "$PWD/bot.conf:/workdir/bot/bot.conf"``
+
+Complete Docker run command:
+
+```
+docker run -p 80:80 \
+ -v "$PWD/data:/mnt/data" \
+ -v "$PWD/bot.conf:/workdir/bot/bot.conf" \
+ fabianhk/homebot
+```

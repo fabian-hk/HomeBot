@@ -7,8 +7,8 @@ RUN apt update && apt install -y python3 python3-pip \
 
 WORKDIR /workdir/bot
 
-COPY . .
-COPY website/ /var/www/html/
+COPY main/ .
+COPY main/website/ /var/www/html/
 RUN rm /var/www/html/index.html
 
 RUN pip3 install -r requirements.txt

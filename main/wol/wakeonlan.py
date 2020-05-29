@@ -7,7 +7,7 @@ conf = config.load_config()
 
 
 def wake_desktop():
-    wakeonlan.send_magic_packet(conf["network"]["wol_pc"])
+    wakeonlan.send_magic_packet(conf["network"]["wol_pc"], ip_address=conf["network"]["on_pc"])
 
 
 def is_on():

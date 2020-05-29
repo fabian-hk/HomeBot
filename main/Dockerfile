@@ -1,8 +1,9 @@
-FROM debian:10.4
+FROM debian:buster-slim
 
 RUN apt update && apt install -y python3 python3-pip \
  build-essential cmake libboost-all-dev libcurl4-openssl-dev \
  libgrpc++-dev libprotobuf-dev protobuf-compiler protobuf-compiler-grpc \
+ libcap2-bin \
  apache2 php
 
 WORKDIR /workdir/bot
@@ -27,6 +28,8 @@ RUN chown -R 1000:1000 /var/www/html
 
 RUN groupadd -g 1000 bot
 RUN useradd -r -u 1000 -g 1000 bot
+
+EXPOSE 80/tcp
 
 CMD setcap CAP_NET_RAW=ep build/cping; \
  service apache2 start; \

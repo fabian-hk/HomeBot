@@ -45,5 +45,7 @@ Complete Docker run command:
 docker run -p 80:80 \
  -v "$PWD/data:/mnt/data" \
  -v "$PWD/bot.conf:/workdir/bot/bot.conf" \
+ -v "/etc/timezone:/etc/timezone:ro" \
+ -v "/etc/localtime:/etc/localtime:ro" \
  fabianhk/homebot
 ```
